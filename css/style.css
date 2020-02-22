@@ -44,7 +44,8 @@ a:hover, a:active {
 /* Main page container */
 
 .profile {
-	width: 800px;
+	width: 100%;
+	max-width: 800px;
 	margin: 0 auto; /* top and bottom, right and left */
 	/* border: none; */
 	text-align: center;
@@ -66,7 +67,8 @@ a:hover, a:active {
 
 .post {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	width: 800px;
+	width: 100%;
+	max-width: 800px;
 	margin: 0 auto; /* top and bottom, right and left */
 	/* border: none; */
 	text-align: center;
@@ -87,6 +89,21 @@ a:hover, a:active {
 	padding-top: 15px;
 }
 
+.instructorphoto img {
+	width: 220px;
+	border-radius: 220px;
+	margin-bottom: 10px;
+  }
+  
+  
+  .instructor {
+	display: inline-block;
+	width: 140px;
+	text-align: center;
+	margin-right: 20px;
+  }
+
+/* Not being used */
 
 .container_img {
 	width: 100%;
@@ -101,16 +118,4 @@ a:hover, a:active {
 opacity: .5;
 }
 
-.instructorphoto img {
-  width: 220px;
-  border-radius: 220px;
-  margin-bottom: 10px;
-}
 
-
-.instructor {
-  display: inline-block;
-  width: 140px;
-  text-align: center;
-  margin-right: 20px;
-}
