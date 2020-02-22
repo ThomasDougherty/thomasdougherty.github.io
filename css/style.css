@@ -1,22 +1,26 @@
 /* CSS Document Metal Mania Oswald Barriecito IBM Plex Sans*/
+
  
 body {
 	/*background: #f7f7f7;*/
 	background: rgb(255, 255, 255);
-	color: #FFFFFF;
+	color: rgb(0, 0, 0);
     font-family: 'IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
     font-weight: 300;
 	font-size:20px;
 }
 
+
+  
 /* Headings */
 
 h1 {
+	  color: rgb(0, 0, 0);
 	  font-size:40px;
 	  font-family: 'Spectral', 'Lato', Verdana, Helvetica, sans-serif;
 	  text-align: left;
-	  color: rgb(0, 0, 0);
 }
+
 
 h2 {
 	font-size:20px;
@@ -69,10 +73,10 @@ a:hover, a:active {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	width: 100%;
 	max-width: 800px;
-	margin: 0 auto; /* top and bottom, right and left */
+	margin: 40px auto; /* top and bottom, right and left */
 	/* border: none; */
 	text-align: center;
-	padding: 20px 50px 30px 50px; /* top, right, bottom, left */
+	padding: 20px 50px 25px 50px; /* top, right, bottom, left */
 	color: #4d4b59;
 	background: rgba(255, 255, 255, 0);
 }
@@ -81,8 +85,9 @@ a:hover, a:active {
 	opacity: .5;
 	}
 
+
 .post_date{
-	font-size:20px;
+	font-size:17px;
 	font-family: "Times New Roman", Times, serif;
 	text-align: right;
 	color: rgb(128, 128, 128);
