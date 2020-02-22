@@ -1,0 +1,4 @@
+Thomas Dougherty is a geospatial analyst at The Aerospace Corporation. He 
+received a MS in electrical and computer engineering from the University 
+of California at Riverside under the supervision of Prof. Amit K. Roy-Chowdhury. 
+His research interest lie in deep learning and computer vision.

@@ -1,0 +1,119 @@
+/* CSS Document Metal Mania Oswald Barriecito IBM Plex Sans*/
+ 
+body {
+	/*background: #f7f7f7;*/
+	background: rgb(255, 255, 255);
+	color: #FFFFFF;
+    font-family: 'IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
+    font-weight: 300;
+	font-size:20px;
+}
+
+/* Headings */
+
+h1 {
+	  font-size:40px;
+	  font-family: 'Spectral', 'Lato', Verdana, Helvetica, sans-serif;
+	  text-align: left;
+	  color: rgb(0, 0, 0);
+}
+
+h2 {
+	font-size:20px;
+}
+
+h3 {
+  	font-size:14pt;
+}
+
+
+/* Hyperlinks */
+  
+a:link, a:visited {
+  color: #3a71d6;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+	color: #f09228;
+  text-decoration: none;
+}
+
+
+
+/* Main page container */
+
+.container {
+	margin: 0 auto; /* top and bottom, right and left */
+	border: 1px hidden #000;
+	/* border: none; */
+	text-align: center;
+	padding: 1em 1em 1em 1em; /* top, right, bottom, left */
+	color: #4d4b59;
+	background: rgba(255, 255, 255, 0);
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Opera and Firefox */
+  }
+
+
+.post {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	width: 800px;
+	margin: 0 auto; /* top and bottom, right and left */
+	/* border: none; */
+	text-align: center;
+	padding: 1em 2em 2em 2em; /* top, right, bottom, left */
+	color: #4d4b59;
+	background: rgba(255, 255, 255, 0);
+}
+
+.post:hover {
+	opacity: .5;
+	}
+
+.post .image-container {
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+.post .image-container img {
+	max-width: 160px;
+	max-height: 160px
+}
+
+
+.container_img {
+	width: 100%;
+	height: 15vw;
+	overflow:hidden;
+	position: relative;
+	text-align: left;
+	color: white;
+ }
+ 
+.container_img:hover {
+opacity: .5;
+}
+
+.instructorphoto img {
+  width: 220px;
+  border-radius: 220px;
+  margin-bottom: 10px;
+}
+
+
+.instructor {
+  display: inline-block;
+  width: 140px;
+  text-align: center;
+  margin-right: 20px;
+}
