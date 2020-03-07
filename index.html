@@ -3,53 +3,93 @@
 <html>
 <head>
 <link rel="shortcut icon" type="image/x-icon" href="teasers/favicon.ico" />
-
+<title>Thomas Dougherty blog - deep learning and computer vision</title>
+<meta name = "description=" content="Thomas Dougherty Blog and posts on machine learning, deep learning, and computer vision topics">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thomas Dougherty</title>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet' type='text/css'>
 
 <link href="css/style.css" rel="stylesheet" type="text/css" />
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript"></script>
 
-<script type="text/javascript">
 
-
-</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
 </head>
 
+
 <body>
+
+<div class="topcorner">
+  <div id="container">
+    <div class="toggle">
+      <input type="checkbox" name="toggle" class="check-checkbox" id="mytoggle">
+      <label class="check-label" for="mytoggle">
+        <div id="background"></div>
+        <span class="face">
+          <span class="face-container">
+            <span class="eye left"></span>
+            <span class="eye right"></span>
+            <span class="mouth"></span>
+          </span>
+        </span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<script>
+
+$(function(){
+  $("#mytoggle").change(function() {
+    $("body").toggleClass("dark-mode", this.checked)
+  }).change();
+})
+  </script>
+
   <div class="profile">
-    <table width="100%" align="center" border="0" cellpadding="10">
+    <table width="100%" cellpadding="10">
       <tr>	
         <td width="100%">
           <div class="instructorphoto">
-            <img onmouseover="document.getElementById('skater').src='resources/me_ollie.png';"
-            onmouseout="document.getElementById('skater').src='resources/me_sd.jpg';"src="resources/me_sd.jpg" id="skater">
+            <img src="resources/me_ollie.png"/>
+            <img src="resources/me_sd.jpg"/>
           </div>
-          <p align="center"><font size="6px">Thomas Dougherty</font><br>
-          tdougherty84@gmail.com</p>
-          <p>I am a geospatial analyst at <a href="https://aerospace.org/" rel="noopener noreferrer" target="_blank">The Aerospace Corporation</a>. I develop deep learning and computer vision solutions for the space enterprise. 
+          <div class="profile_name">Thomas Dougherty</div>
+          <div class="profile_about">tdougherty84@gmail.com</div>
+          <div class="profile_about">I am a geospatial analyst at <a href="https://aerospace.org/" rel="noopener noreferrer" target="_blank">The Aerospace Corporation</a>. 
+            I develop deep learning and computer vision solutions for the space enterprise. </div>
             
-          <p>I received my Masters of Science from <a href="https://www.ucr.edu/" rel="noopener noreferrer" target="_blank">UC Riverside</a>, and completed my thesis <a href="/resources/thesis.pdf" rel="noopener noreferrer" target="_blank">Weakly-supervised Temporal Activity Localization and Classfication with Web Videos</a>
-
-          <p><a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank"><img src="https://img.icons8.com/nolan/128/github.png" height="50"></a> 
-              <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank"><img src="https://img.icons8.com/nolan/128/linkedin.png" height="50"></a> 
-              <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank"><img src="https://img.icons8.com/nolan/128/twitter.png" height="50"></a> 
-          </p>
+            <div class="profile_about">I received my Masters of Science from <a href="https://www.ucr.edu/" rel="noopener noreferrer" target="_blank">UC Riverside</a>, and completed my thesis <a href="/resources/thesis.pdf" rel="noopener noreferrer" target="_blank">Weakly-supervised Temporal Activity Localization and Classfication with Web Videos</a>
+            </div>
+            <div class="profile_links">
+              <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
+                <img src="icons/git.png"/>
+              </a>
+              <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank">
+                <img src="icons/linkedin.png"/>
+              </a>
+              <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank">
+                <img src="icons/twitter.png"/>
+              </a>
+            </div>
         </td>          	
       </tr>
     </table>
   </div>
   <br>
 
-<div class="profile">
-  <table width="70%" border="0" align="center" cellpadding="10">
-    <h2>Blogs</h2>
-  </table>
+
+
+
+
+<div class="post_header">
+    <h2>Posts</h2>
 </div>
 
 <div class="post">
@@ -63,13 +103,13 @@
 
 
 <div class="post">
-  <table width="100%" border="0" align="center" cellpadding="20">
     <h1>Other Blog
     </h1> 
-  </table>
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
           
 </body>
