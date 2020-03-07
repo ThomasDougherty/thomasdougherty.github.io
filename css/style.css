@@ -17,7 +17,7 @@ body {
 .dark-mode {
 	background: #141d26;
 	color: rgb(255, 255, 255);
-	background: linear-gradient(#0e0e2c, #243447);
+	background: linear-gradient(#1f1e3a, #243447);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center top;
@@ -32,13 +32,13 @@ body {
 /* Headings */
 
 h1 {
-	  font-size:18px;
+	  font-size:21px;
 	  font-family: 'Spectral', 'Lato', Verdana, Helvetica, sans-serif;
 	  text-align: left;
 }
 
 h2 {
-	font-size:15px;
+	font-size:17px;
 	color: rgb(160, 160, 160)
 }
 
@@ -48,13 +48,13 @@ h3 {
 }
 
 .profile_name{
-	font-size:23px;
+	font-size:27px;
 	font-family: 'IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
     font-weight: 300;
 }
 
 .profile_about{
-	font-size:15px;
+	font-size:17px;
     font-family: 'IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
 	font-weight: 300;
 	margin-bottom: 5px;
@@ -162,6 +162,10 @@ a:hover, a:active {
 opacity: .5;
 }
 
+html {
+	font-size: 20%;
+	}
+
 @media(min-width: 640px) {
 	/* Screens larger than 768px will use the following CSS */
 	h1 {
@@ -209,15 +213,13 @@ opacity: .5;
 		width: 9%;
 	  }
 	html {
-	font-size: 30%;
+	font-size: 35%;
 	}
 }
 
 /* toggle switch*/
 
-html {
-	font-size: 20%;
-	}
+
 
 * {
 	-webkit-box-sizing: border-box;
