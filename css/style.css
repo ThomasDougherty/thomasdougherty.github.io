@@ -16,7 +16,7 @@ body {
 
 .dark-mode {
 	background: #141d26;
-	color: rgb(255, 255, 255);
+	color: rgba(255, 255, 255, 0.87);
 	background: linear-gradient(#1f1e3a, #243447);
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -49,13 +49,13 @@ h3 {
 
 .profile_name{
 	font-size:27px;
-	font-family: 'IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
+	font-family: 'Spectral', 'sans-serif', 'IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
     font-weight: 300;
 }
 
 .profile_about{
 	font-size:17px;
-    font-family: 'IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
+    font-family: 'Spectral','IBM Plex Sans', 'Lato', Verdana, Helvetica, sans-serif;
 	font-weight: 300;
 	margin-bottom: 5px;
 }
@@ -75,6 +75,17 @@ a:hover, a:active {
 	color: #f09228;
   text-decoration: none;
 }
+
+a:link, a:visited {
+	color: #3a71d6;
+	text-decoration: none;
+  }
+
+.pseudolink { 
+	cursor:pointer; 
+	}
+  
+  
 
 /* Main page container */
 
@@ -172,13 +183,13 @@ html {
 		font-size:40px;
 	}
 	h2 {
-		font-size:20px;
+		font-size:25px;
 	}
 	.profile_name{
-		font-size:35px;
+		font-size:43px;
 	}
 	.profile_about{
-		font-size:20px;
+		font-size:24px;
 		margin-bottom: 10px;
 	}
 	.instructorphoto {
@@ -262,7 +273,7 @@ html {
 	height: 5.5rem;
 	border: none;
 	border-radius: 3rem;
-	background: #d7d7d7;
+	background: #d7d7d781;
 	cursor: pointer;
 	overflow: hidden;
   }
@@ -292,10 +303,10 @@ html {
 	height: inherit;
 	border: none;
 	border-radius: inherit;
-	background: -webkit-gradient(linear, right top, left top, from(#f39add), to(#f39af3));
-	background: -webkit-linear-gradient(right, #f39ab6, #f39af3);
-	background: -o-linear-gradient(right, #f39ab6, #f39af3);
-	background: linear-gradient(to left, #f39ab6, #f39af3);
+	background: -webkit-gradient(linear, right top, left top, from(#2b5bdf), to(#a02abe));
+	background: -webkit-linear-gradient(right, #2b5bdf, #a02abe);
+	background: -o-linear-gradient(right, #2b5bdf, #a02abe);
+	background: linear-gradient(to left, #2b5bdf, #a02abe);
 	opacity: 0;
 	-webkit-transition: all 0.45s ease-in-out;
 	-o-transition: all 0.45s ease-in-out;
