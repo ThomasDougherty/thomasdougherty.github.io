@@ -2,8 +2,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161322277-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-161322277-1');
+</script>
+
 <link rel="shortcut icon" type="image/x-icon" href="teasers/favicon.ico" />
-<title>Thomas Dougherty - deep learning and computer vision</title>
+<title>Stabilizing neural style-transfer for videos with PyTorch</title>
 <meta name = "description=" content="Thomas Dougherty Blog and posts on machine learning, deep learning, and computer vision topics">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -62,6 +73,16 @@ $(function(){
   </script>
 
 
+<script>
+  function emailClipboard() {
+    var copyText = document.getElementById("myInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Copied: " + copyText.value);
+  }
+  </script>
+<input type = "text" value="tdougherty84@gmail.com" id="myInput" style="position: relative; left: -10000px;">
 
 <div class="post_header">
     <h1>Stabilizing neural style-transfer for videos with PyTorch</h1>
@@ -71,15 +92,17 @@ $(function(){
 
     <div class="post_left">
       <div class="post_photo">
+        <a href="https://thomasdougherty.github.io/">
           <img src="resources/me_sd.jpg"/>
-          <a>Thomas Dougherty</a>
+        </a>
+        <a href="https://thomasdougherty.github.io/">
+          Thomas Dougherty
+        </a>
       </div>
     </div>
     <div class="post_right">
         <div class="post_icon">
-          <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
-            <img src="icons/email.png"/>
-          </a>
+            <img src="icons/email.png" onclick="emailClipboard(this)"/>        
           <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
             <img src="icons/git.png"/>
           </a>
@@ -135,12 +158,16 @@ $(function(){
 
 <div class="sidenav" >
   <div class="instructorphoto">
+    <a href="https://thomasdougherty.github.io/">
     <img src="resources/me_sd.jpg"/>
+  </a>
   </div>
-  <div class='sidenav_font'>Thomas Dougherty</div>
+    <a href="https://thomasdougherty.github.io/">
+    Thomas Dougherty
+  </a>
   <div class="profile_links">
-    <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
-      <img src="icons/email.png"/>
+    <a>
+      <img src="icons/email.png" onclick="emailClipboard(this)"/> 
     </a>
     <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
       <img src="icons/git.png"/>
@@ -155,18 +182,19 @@ $(function(){
 </div>
 
 <script>
-  $(window).bind('scroll', function() {
-    if ($(window).scrollTop() > 850 && (windowSize >= 1250)) {
+  $(window).bind('scroll', 'resize', function myFunction() {
+    var winWidth = $(window).width();
+    if ($(window).scrollTop() > 850 && winWidth >= 1250) {
         $('.sidenav').show();
     }
     else {
         $('.sidenav').hide();
     }
-    // Execute on load
-    checkWidth();
-    // Bind event listener
-    $(window).resize(checkWidth);
   });
+
+  $(window).on("resize", myFunction);
+  $(window).on("scroll", myFunction);
+  window.addEventListener('resize', myFunction);
   </script>
 
 

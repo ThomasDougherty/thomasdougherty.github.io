@@ -76,10 +76,6 @@ a:hover, a:active {
   text-decoration: none;
 }
 
-a:link, a:visited {
-	color: #3a71d6;
-	text-decoration: none;
-  }
 
 .pseudolink { 
 	cursor:pointer; 
