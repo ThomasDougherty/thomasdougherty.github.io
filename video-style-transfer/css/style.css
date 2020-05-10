@@ -129,6 +129,17 @@ h4 {
 	font-family: 'Tahoma';
 }
 
+.quote{
+	padding-top: 20px;
+	padding-bottom: 20px;	
+	font-style: italic
+}
+
+.quote a{
+	font-family: 'Serif';
+	
+}
+
 .content_img_desc a{
 	margin-left: auto;
 	margin-right: auto;
@@ -138,6 +149,10 @@ h4 {
 	color: rgb(119, 119, 119);	
 	font-family: 'Tahoma';
 }
+
+ul {
+	list-style-image: circle;
+  }
 
 .content_bold{
 	padding-top: 20px;
@@ -346,6 +361,10 @@ html {
 	  }
 
 	.content_bold{
+		padding-top: 40px;
+		padding-bottom: 30px;	
+	}
+	.quote{
 		padding-top: 40px;
 		padding-bottom: 30px;	
 	}

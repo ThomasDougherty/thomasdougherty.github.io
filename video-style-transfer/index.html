@@ -43,7 +43,8 @@
 
 
   <div class="header_img">
-    <img style='height: 100%; width: 100%; object-fit: contain' src="resources/header.png"/>
+    <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_video_style.gif" alt="animated"/>
+    
   </div>
   
 <div class="topcorner">
@@ -164,8 +165,10 @@ $(function(){
   <a>
     <br>
     There are two main components to a style transfer:<br>
-    (i) Image Transformation Network<br>
-    (ii) Loss Network<br>
+    <ul>
+      <li>Image Transformation Network</li>
+      <li>Loss Network</li>
+    </ul>
   </a>
 
   <img style='height: 100%; width: 100%; object-fit: contain' src="resources/model.png"/>
@@ -183,19 +186,21 @@ $(function(){
     and the content image are the same for style transfer. Feeding a color image
     of shape 3 x 256 x 256, the image transformation network returns
     a stylized image of the same shape 3 x 256 x 256. 
-    <br>
-    <br>
+    
+    <img style='height: 100%; width: 100%; object-fit: contain' src="resources/autoencoder.png"/>
+    <div class="content_img_desc">
+      <a>Autoencoder architecture</a> 
+    </div>
+
+    <a>
     There are many variations of the image transformation network. A commonly used
     one is an
     <a href="https://en.wikipedia.org/wiki/Autoencoder" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
       autoencoder</a> 
     <a>
     . An autoencoder first learns to represent the data in a smaller dimensional space
-    (encoder), then learns to reconstruct the data (decoder) to its original size.
-    The aim of an autoencoder is to learn useful properties of the data. A good way
-    to think about it is the autoencoder filters out "noise" from the data and 
-    "enhances" useful properties, where you define what is "noise" and "useful", i.e. 
-    background vs foreground.
+    (encode), then learns to reconstruct the data (decode) to its original size.
+    The aim of an autoencoder is to learn useful properties of the data. 
     To check out a popular type of autoencoder, see  </a>
     <a href="https://towardsdatascience.com/u-net-b229b32b4a71" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
       UNet architecture</a> 
@@ -203,6 +208,10 @@ $(function(){
     <div class="content_bold">
       <a>Loss Network</a>
     </div>
+      <img style='height: 100%; width: 100%; object-fit: contain' src="resources/vgg16.png"/>
+      <div class="content_img_desc">
+        <a>VGG-16 architecture (our loss network)</a> 
+      </div>   
     <a>
       We want the style of our input image to be modified, but still
       preserve its original content.
@@ -213,9 +222,6 @@ $(function(){
       A nice visualization of convolutional features can be found </a>
       <a href="https://towardsdatascience.com/how-to-visualize-convolutional-features-in-40-lines-of-code-70b7d87b0030" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
         here</a> 
-     <a>. Because of this, our loss network will be using the top layers of the
-      VGG-16 model, specifically up to layer </a>
-       <a style="font-style: italic"> 'relu4_3'</a>
        <a>.</a>
       <a>     
         <br>
@@ -232,32 +238,224 @@ $(function(){
       The formulas for our loss functions come from Johnson's </a>
     <a href="https://arxiv.org/abs/1603.08155" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
       Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a> 
-    <a>. Where we refer to their Feature Reconstruction Loss as Content Loss, 
-      and Style Reconstruction Loss as Style Loss.
+    <a>. We refer to their </a> 
+
+      <a style="font-style: italic;">
+        Feature Reconstruction Loss </a> 
+
+      <a> as </a> 
+
+      <a style="font-style: italic;">
+      Content Loss
+    </a>
+
+    <a>, and their
     </a> 
+
+    <a style="font-style: italic;">
+      Style Reconstruction Loss
+    </a>
+
+    <a> as  
+    </a> 
+
+    <a style="font-style: italic;">
+      Style Loss
+    </a>
+
+    <a>
+    . The only modification we apply is by choosing
+    </a>
+    <a style="font-style: italic;">
+      relu2_2 </a> 
+    <a>
+      as our content loss feature representation versus the paper's choice of 
+    </a>
+    <a style="font-style: italic;">
+      relu3_3</a> 
+      <a>
+        .
+      </a>
+
+
     <div class="content_bold">
       <a>Content Loss</a>
     </div>
     <a>
-      We want the output of our image transformation network to have similar 
-      features to our content image, but not necessarily a pixel to pixel match.
-      This is controlled by the content loss. We know that \(ax^2 + bx + c = 0\).
+      Rather than encouraging the pixels of the output image \(\hat{y}\) 
+      to exactly match the pixels of the content image \(y\), we instead encourage
+      them to have similar feature representations as computed by the loss
+      network \(\phi\). Let \(\phi_j\left( x \right)\) be the output of the 
+      \(j\)th layer of our loss network with a feature map shape of \(C_j \times H_j \times W_j\), 
+      while processing image \(x\). Our content loss is the Euclidean distance between
+      feature representations:
       
-
       $$L_{content} = \frac{1}{C_j H_j W_j}\| \phi_j\left( \hat{y} \right) - \phi_j\left(y \right) \|^2_2$$
-    </a>
-  </a>
-  
+
+      
+      </a>
+      <img style='height: 100%; width: 100%; object-fit: contain' src="resources/elephant.png"/>
+      <div class="content_img_desc">
+        <a>
+          Optimization to finding an image \(\hat{y}\) that minimizes the content loss for
+          several layers from the pretrained VGG-16 loss network. Reconstructing from higher
+          layers preserve image content and overall spatial structure, but color, texture, and 
+          exact shape are not.
+        </a> 
+      </div>
+      <a>
+        Using this content loss encourages the output image \(\hat{y}\) to be perceptually similar
+        to the target image \(y\), but does not force them to exactly match.
+      </a>
+      <div class="content_bold">
+        <a>Style Loss</a>
+      </div>
+      <a>
+        We want to penalize the output image \(\hat{y}\) when it deviates 
+        from our style image in style: colors, textures, common patterns, etc. 
+        Let \(\phi_j\left( x \right)\) be the activations at the \(jth\) layer of the network
+        \(\phi\) for the input \(x\), which is a feature map of shape \(C_j \times H_j \times W_j\). 
+        The Gram matrix \(G_j^{\phi}\left(x \right) \) with shape \(C_j \times C_j\)
+        can be defined as:
+
+        $$G_j^{\phi}\left(x \right)_{c,c^{\prime}} = \frac{1}{C_j H_j W_j}
+        \sum_{h=1}^{H_j} \sum_{w=1}^{W_j} \phi_j\left( x \right)_{h,w,c} \phi_j\left( x \right)_{h,w,c^{\prime}}$$
+
+        The Gram matrix can be computed efficiently by reshaping \(\phi_j\left( x \right)\) into a 
+        matrix \(\psi\) of shape \(C_j \times H_j W_j\). Then our Gram matrix becomes: 
+
+        $$G_j^{\phi}\left(x \right) = \psi\psi^T/C_j H_j W_j$$
+
+        The style loss is then the mean square error between the Gram matricies of 
+        the output and target images:
+
+        $$ L_{style} = \frac{1}{N}\sum_{i=1}^{N}\left(G_{ij}^{\phi}\left(\hat{y} \right)-G_{ij}^{\phi}\left(y \right)\right)$$
+
+        where \(i\) is a data point. A short video that goes over the Gram Matrix in more detail can be found </a>
+        <a href="https://www.youtube.com/watch?v=DEK-W5cxG-g" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
+        <a>. Below is a PyTorch implementation of the Gram matrix.
+
+      </a>    
 </div>
-
-
-
-
-
 
 <div class="code">
   <script src="https://gist.github.com/ThomasDougherty/6ba3f0fd4633070d428c8f9e2d1d2d66.js"></script>
 </div>
+
+<div class="content">
+  <h2>Video Style Transfer</h2>
+
+  <a>When style transfer is used frame-by-frame for videos, the stylized videos suffer
+    from an inconsistency between frames. This can be seen as a "popping" effect below.
+  </a>
+
+  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_style.gif" alt="animated"/>
+  <div class="content_img_desc">
+  </div>
+    <a>One solution proposed by Manuel Ruder, Alexey Dosovitskiy, and Thomas Brox titled </a>
+    <a href="https://arxiv.org/abs/1604.08610" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+      Artistic style transfer for videos</a> 
+    <a>, presents a method of stabilizing videos by penalizing departures from the optical flow of the input video.
+      This method however is computationally expensive, taking minutes to transfer a single frame.
+    </a>
+
+    <div class="content_bold">
+      <a>Proposed Method</a>
+    </div>
+
+    <a>The methodology proposed is created by Element AI's </a>
+    <a href="https://medium.com/element-ai-research-lab/stabilizing-neural-style-transfer-for-video-62675e203e42" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+      Stabilizing neural style-transfer for video</a> 
+   <a>. Their blog explains:</a>
+
+   <div class="quote">
+    <a >"The central idea employed here is that temporal instability and popping 
+      result from the style changing radically when the input changes very 
+      little. In fact, the changes in pixel values from frame-to-frame are 
+      largely noise."
+    </a>
+  </div>
+
+  <a>So the "popping" that appears in the video is really a sensitivity of change
+    between consecutive frames. Therefore, an additional loss is added during training.
+    By manually adding a small amount of noise to the images during training, the loss
+    focuses on minimizing the difference between the stylized versions of the original
+    image and the noisy image. By replicating the "popping" artificats, we now have
+    a loss that learns to suppress this noise.
+  </a>
+
+  <div class="content_bold">
+    <a>Modifications</a>
+  </div>
+
+  <a>Element AI starts with a </a>
+    <a href="https://github.com/yusuketomoto/chainer-fast-neuralstyle" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+      Chainer implementation</a>
+      <a>&nbspof Johnson's Perceptual Losses for Real-Time Style Transfer and Super-Resolution. We, however, will be implementing
+        this with PyTorch. Our base model comes from PyTorch's 
+        <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+          fast neural style</a>
+          <a>
+            &nbsprepository, which is also an implementation of Johnson's method.
+      </a>
+      <a>
+        <br>
+        <br>
+        We call a model stable if adding noise to our image results in a similar stylization as without. Let \({y}\) be our 
+        original stylized image, and \(\hat{y}\) be our stylized noisy image. We want a loss that represents how unstable our
+        model is, i.e. the model's ability to suppress the "popping" effect. Our loss is defined as:
+        
+        $$ L_{pop} = \frac{\lambda_{noise}}{N}\sum_{i=1}^{N}\left(y_i-\hat{y}_i\right)^2$$
+
+        where \(\lambda_{noise}\) is a tuning parameter and \(i\) is a data point.
+      </a>
+
+      <a>
+        <br>
+        <br>
+        The original fast neural style loss function is computed below:
+      </a>
+</div>
+<div class="code">
+  <script src="https://gist.github.com/ThomasDougherty/d2806028b24a5aa03ca763e8320efca7.js"></script>
+</div>
+
+
+<div class="content">
+  <a>
+    Adding our fourth loss component:
+  </a>
+</div>
+
+<div class="code">
+  <script src="https://gist.github.com/ThomasDougherty/7ad5cc23fab06061f5ba5fc03e843d37.js"></script>
+</div>
+
+
+
+<div class="content">
+  <a>
+    The above is our total loss function. There are several hyperparameters that we will go over with this additional loss.
+  </a>
+  <div class="content_bold">
+    <a>Noise hyperparameters</a>
+  </div>
+  <a>
+    Our noisy image \(\hat{y}\) is the stylization of our source image:
+  </a>
+</div>
+
+<div class="code">
+  <script src="https://gist.github.com/ThomasDougherty/5bfdb4ea9cfef8abcf65d8dfc7e0d53b.js"></script>
+</div>
+
+<div class="content">
+  <a>
+    The above is our total loss function. There are several hyperparameters that we will go over with this additional loss.
+  </a>
+</div>
+
+
 
 <div class="sidenav" >
   <div class="instructorphoto">
@@ -299,7 +497,6 @@ $(function(){
   $(window).on("scroll", myFunction);
   window.addEventListener('resize', myFunction);
   </script>
-
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
