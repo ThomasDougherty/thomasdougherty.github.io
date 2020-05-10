@@ -7,6 +7,15 @@ body {
 	background: rgb(255, 255, 255);
 }
 
+html.darkmode body {
+	background: #141d26;
+	color: rgba(255, 255, 255, 0.87);
+	background: linear-gradient(#1f1e3a, #243447);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center top;
+}
+
 .topcorner{
 	position: absolute;
     top:10px;
@@ -140,6 +149,22 @@ h4 {
 	
 }
 
+code {
+	background-color: rgb(238, 238, 238);
+    border-radius: 3px;
+    font-family: courier, monospace;
+    padding: 0 3px;
+}
+
+code {
+	background-color: rgb(238, 238, 238);
+    border-radius: 3px;
+    font-family: courier, monospace;
+    padding: 0 3px;
+}
+
+
+
 .content_img_desc a{
 	margin-left: auto;
 	margin-right: auto;
@@ -162,7 +187,7 @@ ul {
 	font-weight: bold;
 }
 
-.code {
+.code_block {
 	width: 90%;
 	margin: 20px auto; /* top and bottom, right and left */
 	/* border: none; */
@@ -300,7 +325,7 @@ html {
 		text-align: center;
 		margin: 80px auto; /* top and bottom, right and left */
 	}
-	.code, .content {
+	.code_block, .content {
 		width: 90%;
 		max-width: 800px;
 		margin: 40px auto; /* top and bottom, right and left */

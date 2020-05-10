@@ -65,13 +65,39 @@
   </div>
 </div>
 
+
+
 <script>
-$(function(){
-  $("#mytoggle").change(function() {
-    $("body").toggleClass("dark-mode", this.checked)
-  }).change();
-})
+// start up script to check user preference
+var preference = window.matchMedia('(prefers-color-scheme: dark)');
+var startToggle = false;
+if (preference.matches){
+document.getElementById("mytoggle").checked = true;
+document.documentElement.classList.add('darkmode');
+}
+else{
+  document.getElementById("mytoggle").checked = false;
+  document.documentElement.classList.remove('darkmode');
+}
 </script>
+
+<script>
+  $(function(){
+    $("#mytoggle").change(function() {
+      if (startToggle){
+        if (document.getElementById("mytoggle").checked){
+          document.documentElement.classList.add('darkmode');
+        }
+        else {
+          document.documentElement.classList.remove('darkmode');
+        }
+      } else {
+        startToggle = true;
+      }
+    }).change();
+  })
+  </script>
+
 
 
 <script>
@@ -223,15 +249,15 @@ $(function(){
       <a href="https://towardsdatascience.com/how-to-visualize-convolutional-features-in-40-lines-of-code-70b7d87b0030" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
         here</a> 
        <a>.</a>
-      <a>     
-        <br>
-        <br>
-      We'll be using the loss network to calculate two losses: <br>
-      1. Content Loss
+    <a>
       <br>
-      2. Style Loss
+      <br>
+      We'll be using the loss network to calculate two losses: <br>
+      <ul>
+        <li>Content Loss</li>
+        <li>Style Loss</li>
+      </ul>
     </a>
-
     <a>    
       <br>
       <br>
@@ -338,7 +364,7 @@ $(function(){
       </a>    
 </div>
 
-<div class="code">
+<div class="code_block">
   <script src="https://gist.github.com/ThomasDougherty/6ba3f0fd4633070d428c8f9e2d1d2d66.js"></script>
 </div>
 
@@ -346,7 +372,7 @@ $(function(){
   <h2>Video Style Transfer</h2>
 
   <a>When style transfer is used frame-by-frame for videos, the stylized videos suffer
-    from an inconsistency between frames. This can be seen as a "popping" effect below.
+    from an inconsistency between frames. This can be seen as a "popping" effect below. 
   </a>
 
   <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_style.gif" alt="animated"/>
@@ -363,7 +389,7 @@ $(function(){
       <a>Proposed Method</a>
     </div>
 
-    <a>The methodology proposed is created by Element AI's </a>
+    <a>The methodology is proposed by Element AI's </a>
     <a href="https://medium.com/element-ai-research-lab/stabilizing-neural-style-transfer-for-video-62675e203e42" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
       Stabilizing neural style-transfer for video</a> 
    <a>. Their blog explains:</a>
@@ -405,18 +431,14 @@ $(function(){
         original stylized image, and \(\hat{y}\) be our stylized noisy image. We want a loss that represents how unstable our
         model is, i.e. the model's ability to suppress the "popping" effect. Our loss is defined as:
         
-        $$ L_{pop} = \frac{\lambda_{noise}}{N}\sum_{i=1}^{N}\left(y_i-\hat{y}_i\right)^2$$
+        $$ L_{pop} = \frac{\lambda_{noise}}{N}\sum_{i=1}^{N}\left(y_i-\hat{y}\right)^2$$
 
         where \(\lambda_{noise}\) is a tuning parameter and \(i\) is a data point.
-      </a>
 
-      <a>
-        <br>
-        <br>
         The original fast neural style loss function is computed below:
       </a>
 </div>
-<div class="code">
+<div class="code_block">
   <script src="https://gist.github.com/ThomasDougherty/d2806028b24a5aa03ca763e8320efca7.js"></script>
 </div>
 
@@ -427,7 +449,7 @@ $(function(){
   </a>
 </div>
 
-<div class="code">
+<div class="code_block">
   <script src="https://gist.github.com/ThomasDougherty/7ad5cc23fab06061f5ba5fc03e843d37.js"></script>
 </div>
 
@@ -435,24 +457,33 @@ $(function(){
 
 <div class="content">
   <a>
-    The above is our total loss function. There are several hyperparameters that we will go over with this additional loss.
+    This is our new total loss function. There are several hyperparameters that we will go over with this additional loss.
   </a>
   <div class="content_bold">
     <a>Noise hyperparameters</a>
   </div>
   <a>
-    Our noisy image \(\hat{y}\) is the stylization of our source image:
+    We introduce several tuning parameters needed for \(L_{pop}\):</a>
+  <a><code>lambda_noise</code>
+    <ul>
+      <li><code>lambda_noise</code></li>
+      <li><code>noise_range</code></li>
+      <li><code>noise_count</code></li>
+    </ul>
   </a>
 </div>
 
-<div class="code">
+<div class="code_block">
   <script src="https://gist.github.com/ThomasDougherty/5bfdb4ea9cfef8abcf65d8dfc7e0d53b.js"></script>
 </div>
 
 <div class="content">
-  <a>
-    The above is our total loss function. There are several hyperparameters that we will go over with this additional loss.
-  </a>
+  <div class="content_bold">
+    <a>
+      lambda_noise
+    </a>
+  </div>
+  
 </div>
 
 
