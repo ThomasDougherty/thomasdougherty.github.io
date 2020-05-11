@@ -1,538 +1,488 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-<head>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161322277-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-161322277-1');
-</script>
-
-<link rel="shortcut icon" type="image/x-icon" href="teasers/favicon.ico" />
-<title>Stabilizing neural style-transfer for videos with PyTorch</title>
-<meta name = "description=" content="Thomas Dougherty Blog and posts on machine learning, deep learning, and computer vision topics">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=IBM Plex Sans' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-<script src="//code.jquery.com/jquery-1.12.4.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript"></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-
-
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-
-</head>
-
-
-<body>
-
-
-  <div class="header_img">
-    <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_video_style.gif" alt="animated"/>
-    
-  </div>
-  
-<div class="topcorner">
-  <div id="container">
-    <div class="toggle">
-      <input type="checkbox" name="toggle" class="check-checkbox" id="mytoggle">
-      <label class="check-label" for="mytoggle">
-        <div id="background"></div>
-        <span class="face">
-          <span class="face-container">
-            <span class="eye left"></span>
-            <span class="eye right"></span>
-            <span class="mouth"></span>
-          </span>
-        </span>
-      </label>
-    </div>
-  </div>
-</div>
-
-
-
-<script>
-// start up script to check user preference
-var preference = window.matchMedia('(prefers-color-scheme: dark)');
-var startToggle = false;
-if (preference.matches){
-document.getElementById("mytoggle").checked = true;
-document.documentElement.classList.add('darkmode');
-}
-else{
-  document.getElementById("mytoggle").checked = false;
-  document.documentElement.classList.remove('darkmode');
-}
-</script>
-
-<script>
-  $(function(){
-    $("#mytoggle").change(function() {
-      if (startToggle){
-        if (document.getElementById("mytoggle").checked){
-          document.documentElement.classList.add('darkmode');
-        }
-        else {
-          document.documentElement.classList.remove('darkmode');
-        }
-      } else {
-        startToggle = true;
-      }
-    }).change();
-  })
-  </script>
-
-
-
-<script>
-  function emailClipboard() {
-    var copyText = document.getElementById("myInput");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Copied: " + copyText.value);
-  }
-  </script>
-<input type = "text" value="tdougherty84@gmail.com" id="myInput" style="position: relative; left: -10000px;">
-
-<div class="post_header">
-    <h1>Stabilizing neural style-transfer for videos with PyTorch</h1>
-    <h3>March 19th, 2020
-   </h3>
-
-    <div class="post_left">
-      <div class="post_photo">
-        <a href="https://thomasdougherty.github.io/">
-          <img src="resources/me_sd.jpg"/>
-        </a>
-        <a href="https://thomasdougherty.github.io/">
-           Thomas Dougherty
-        </a>
+   <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161322277-1"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         
+         gtag('config', 'UA-161322277-1');
+      </script>
+      <link rel="shortcut icon" type="image/x-icon" href="teasers/favicon.ico" />
+      <title>Stabilizing neural style-transfer for videos with PyTorch</title>
+      <meta name = "description=" content="Thomas Dougherty Blog and posts on machine learning, deep learning, and computer vision topics">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+      <link href="css/style.css" rel="stylesheet" type="text/css" />
+      <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script type="text/javascript"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+   </head>
+   <body>
+      <div class="header_img">
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_video_style.gif" alt="animated"/>
       </div>
-    </div>
+      <div class="topcorner">
+         <div id="container">
+            <div class="toggle">
+               <input type="checkbox" name="toggle" class="check-checkbox" id="mytoggle" autocomplete='off'>
+               <label class="check-label" for="mytoggle">
+                  <div id="background"></div>
+                  <span class="face">
+                  <span class="face-container">
+                  <span class="eye left"></span>
+                  <span class="eye right"></span>
+                  <span class="mouth"></span>
+                  </span>
+                  </span>
+               </label>
+            </div>
+         </div>
+      </div>
+      <script>
+         // start up script to check user preference
+         var preference = window.matchMedia('(prefers-color-scheme: dark)');
+         var startToggle = false;
+         if (preference.matches){
+         document.getElementById("mytoggle").checked = true;
+         document.documentElement.classList.add('darkmode');
+         }
+         else{
+           document.getElementById("mytoggle").checked = false;
+           document.documentElement.classList.remove('darkmode');
+         }
+      </script>
+      <script>
+         $(function(){
+           $("#mytoggle").change(function() {
+             if (startToggle){
+               if (document.getElementById("mytoggle").checked){
+                 document.documentElement.classList.add('darkmode');
+               }
+               else {
+                 document.documentElement.classList.remove('darkmode');
+               }
+             } else {
+               startToggle = true;
+             }
+           }).change();
+         })
+      </script>
 
-    <div class="post_right">
-        <div class="post_icon">
-            <img src="icons/email.png" onclick="emailClipboard(this)"/>        
-          <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
-            <img src="icons/git.png"/>
-          </a>
-          <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank">
-            <img src="icons/linkedin.png"/>
-          </a>
-          <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank">
-            <img src="icons/twitter.png"/>
-          </a>
+      <script>
+         function emailClipboard() {
+           var copyText = document.getElementById("myInput");
+           copyText.select();
+           copyText.setSelectionRange(0, 99999)
+           document.execCommand("copy");
+           alert("Copied: " + copyText.value);
+         }
+      </script>
+      <input type = "text" value="tdougherty84@gmail.com" id="myInput" style="position: relative; left: -10000px;">
+      <div class="post_header">
+         <h1>Stabilizing neural style-transfer for videos with PyTorch</h1>
+         <h3>March 19th, 2020
+         </h3>
+         <div class="post_left">
+            <div class="post_photo">
+               <a href="https://thomasdougherty.github.io/">
+               <img src="resources/me_sd.jpg"/>
+               </a>
+               <a href="https://thomasdougherty.github.io/">
+               Thomas Dougherty
+               </a>
+            </div>
+         </div>
+         <div class="post_right">
+            <div class="post_icon">
+               <img src="icons/email.png" onclick="emailClipboard(this)"/>        
+               <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
+               <img src="icons/git.png"/>
+               </a>
+               <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank">
+               <img src="icons/linkedin.png"/>
+               </a>
+               <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank">
+               <img src="icons/twitter.png"/>
+               </a>
+            </div>
+         </div>
+      </div>
+      <div class="post_line"></div>
+      <div class="content">
+         <a>This project is a PyTorch implementation of Element AI's </a>
+         <a href="https://medium.com/element-ai-research-lab/stabilizing-neural-style-transfer-for-video-62675e203e42" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         Stabilizing neural style-transfer for video</a> 
+         <a>
+         . This post dives into the details of neural style transfer for images, the challenges
+         with video style transfer, and Element AI's approach towards video style transfer. Please skip to whatever 
+         is most relevant to you. All code can be found
+         </a>
+         <a href="https://github.com/ThomasDougherty/video_style_transfer" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
+         <a>.</a>
+      </div>
+      <div class="content">
+         <h2>Style Transfer</h2>
+         <a>Let's first define what we are striving for with a style transfer.</a>
+         <div class="content_bold">
+            <a>We want a style transfer to modify the style of an image while still
+            preserving its content.</a>
+         </div>
+         <a>Given an input image and a style image, we want an output image with the
+         original content but a new style. This is outlined in 
+         </a>
+         <a href="https://arxiv.org/abs/1508.06576" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">A Neural Algorithm of Artistic Style</a> 
+         <a>. Below are some examples of stylization.</a>
+         <img style='height: 90%; width: 90%; object-fit: contain' src="resources/picasso.gif"/>
+         <div class="content_img_desc">
+            <a>Pablo Picasso</a> 
+            <a href="https://www.youtube.com/watch?v=CkRS3wDg1xU" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">painting on glass in 1937</a> 
+            <a>: stolen </a> 
+            <a href="https://medium.com/data-science-group-iitr/artistic-style-transfer-with-convolutional-neural-network-7ce2476039fd" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
+         </div>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi5.png"/>
+         <div class="content_img_desc">
+            <a>Corgi (content) + style</a> 
+         </div>
+         <a>
+            <br>
+            There are two main components to a style transfer:<br>
+            <ul>
+               <li>Image Transformation Network</li>
+               <li>Loss Network</li>
+            </ul>
+         </a>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/model.png"/>
+         <div class="content_img_desc">
+            <a>Style transfer architecture: Image transformation network followed by the Loss Network (VGG-16)</a> 
+         </div>
+         <div class="content_bold">
+            <a>Image Transformation Network</a>
+         </div>
+         <a>
+            The image transformation network is the model that we train. It takes in
+            your content image and returns your stylized output. To clarify, the input image
+            and the content image are the same image. Feeding a color image
+            of shape 3 x 256 x 256, the image transformation network returns
+            a stylized image of the same shape 3 x 256 x 256. 
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/autoencoder_v2.png"/>
+            <div class="content_img_desc">
+         <a>Autoencoder architecture</a> 
+         </div>
+         <a>
+         There are many variations of the image transformation network. A commonly used
+         one is an
+         <a href="https://en.wikipedia.org/wiki/Autoencoder" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         autoencoder</a> 
+         <a>
+         . An autoencoder first learns to represent the data in a smaller dimensional space
+         (encode), then learns to reconstruct the data (decode) to its original size.
+         To check out a popular type of autoencoder, see  </a>
+         <a href="https://towardsdatascience.com/u-net-b229b32b4a71" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         UNet architecture</a> 
+         <a>.</a> 
+         <div class="content_bold">
+            <a>Loss Network</a>
+         </div>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/vgg16.png"/>
+         <div class="content_img_desc">
+            <a>VGG-16 architecture (our loss network)</a> 
+         </div>
+         <a>
+         We want the style of our input image to be modified, but still
+         preserve its original content.
+         The loss network we'll be using is a 16-layer VGG network pretrained
+         on the ImageNet dataset. From our knowledge of Convolutional Neural Networks,
+         higher layers capture image content and overall spatial structure, where lower 
+         layers capture lower level features such as colors, textures, common patterns, etc. 
+         A nice visualization of convolutional features can be found </a>
+         <a href="https://towardsdatascience.com/how-to-visualize-convolutional-features-in-40-lines-of-code-70b7d87b0030" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         here</a> 
+         <a>.</a>
+         <a>
+            <br>
+            <br>
+            We'll be using the loss network to calculate two losses: <br>
+            <ul>
+               <li>Content Loss</li>
+               <li>Style Loss</li>
+            </ul>  
+        <br>
+         The formulas for our loss functions come from Johnson's </a>
+         <a href="https://arxiv.org/abs/1603.08155" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a> 
+         <a>. We refer to their
+         Feature Reconstruction Loss 
+          as </a> 
+         <a style="font-weight: bold;">
+         Content Loss
+         </a>
+         <a>, and their
+         Style Reconstruction Loss as  
+         </a> 
+         <a style="font-weight: bold;">
+         Style Loss
+         </a>
+         <a>
+         . The only modification we apply is by choosing <code>relu2_2</code>
+         as our content loss feature representation versus the paper's choice of 
+         <code>relu3_3</code>.
+         </a>
+
+         <div class="content_bold">
+            <a>Content Loss</a>
+         </div>
+         <a>
+         Rather than encouraging the pixels of the output image \(\hat{y}\) 
+         to exactly match the pixels of the content image \(y\), we instead encourage
+         them to have similar feature representations as computed by the loss
+         network \(\phi\). Let \(\phi_j\left( x \right)\) be the output of the 
+         \(j\)th layer of our loss network with a feature map shape of \(C_j \times H_j \times W_j\), 
+         while processing image \(x\). Our content loss is the Euclidean distance between
+         feature representations:
+         <div class ="equation">
+         $$L_{content} = \frac{1}{C_j H_j W_j}\| \phi_j\left( \hat{y} \right) - \phi_j\left(y \right) \|^2_2$$
         </div>
+         </a>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/elephant.png"/>
+         <div class="content_img_desc">
+            <a>
+            Optimization to finding an image \(\hat{y}\) that minimizes the content loss for
+            several layers from the pretrained VGG-16 loss network. Reconstructing from higher
+            layers preserve image content and overall spatial structure, but color, texture, and 
+            exact shape are not.
+            </a> 
+         </div>
+         <a>
+         Using this content loss encourages the output image \(\hat{y}\) to be perceptually similar
+         to the target image \(y\), but does not force them to exactly match.
+         </a>
+         <div class="content_bold">
+            <a>Style Loss</a>
+         </div>
+         <a>
+         We want to penalize the output image \(\hat{y}\) when it deviates 
+         from our style image in style: colors, textures, common patterns, etc. 
+         Let \(\phi_j\left( x \right)\) be the activations at the \(jth\) layer of the network
+         \(\phi\) for the input \(x\), which is a feature map of shape \(C_j \times H_j \times W_j\). 
+         The Gram matrix \(G_j^{\phi}\left(x \right) \) with shape \(C_j \times C_j\)
+         can be defined as:
+
+         <div class ="equation">
+         $$G_j^{\phi}\left(x \right)_{c,c^{\prime}} = \frac{1}{C_j H_j W_j}
+         \sum_{h=1}^{H_j} \sum_{w=1}^{W_j} \phi_j\left( x \right)_{h,w,c} \phi_j\left( x \right)_{h,w,c^{\prime}}$$
+        </div>
+
+         The Gram matrix can be computed efficiently by reshaping \(\phi_j\left( x \right)\) into a 
+         matrix \(\psi\) of shape \(C_j \times H_j W_j\). Then our Gram matrix becomes: 
+
+         <div class ="equation">
+         $$G_j^{\phi}\left(x \right) = \psi\psi^T/C_j H_j W_j$$
+        </div>
+
+         The style loss is then the mean square error between the Gram matricies of 
+         the output and target images:
+
+         <div class ="equation">
+         $$ L_{style} = \frac{1}{N}\sum_{i=1}^{N}\left(G_{ij}^{\phi}\left(\hat{y} \right)-G_{ij}^{\phi}\left(y \right)\right)$$
+        </div>
+
+         where \(i\) is a data point. A short video that goes over the Gram Matrix in more detail can be found </a>
+         <a href="https://www.youtube.com/watch?v=DEK-W5cxG-g" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
+         <a>. Below is a PyTorch implementation of the Gram matrix.
+         </a>    
       </div>
-</div>
+      <div class="code_block">
+         <script src="https://gist.github.com/ThomasDougherty/6ba3f0fd4633070d428c8f9e2d1d2d66.js"></script>
+      </div>
+      <div class="content">
+        <div class="content_bold_postgit">
+          <a>Total Variation Regularization</a>
+       </div>
+       <a>
+         We use a third loss component mentioned in Johnson's paper.
+       </a>
+       <a href="https://www.wikiwand.com/en/Total_variation_denoising" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">Total Variation Regularization</a> 
+       <a>
+        &nbspis utilized to encourage spatial smoothness in the output image. It is based on the principle that signals
+        with excessive and possibly spurious detail have high total variation. We want to penalize output images with excessive detail 
+        that can be seen as noise or artificats. Our loss is defined as:
 
-
-
-<div class="post_line"></div>
-
-<div class="content">
-  <a>This project is a PyTorch implementation of Element AI's </a>
-    <a href="https://medium.com/element-ai-research-lab/stabilizing-neural-style-transfer-for-video-62675e203e42" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-      Stabilizing neural style-transfer for video</a> 
-   <a>
-     . This post dives into the details of neural style transfer for images, the challenges
-     with video style transfer, and Element AI's approach towards video style transfer. Please skip to whatever 
-     is most relevant to you. All code can be found
-   </a>
-   <a href="https://github.com/ThomasDougherty/video_style_transfer" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
- <a>.</a>
-  
-</div>
-
-
-<div class="content">
-  <h2>Style Transfer</h2>
-  <a>Let's first define what we are striving for with a style transfer.</a>
-  <div class="content_bold">
-    <a>We want a style transfer to modify the style of an image while still
-      preserving its content.</a>
-  </div>
-  <a>Given an input image and a style image, we want an output image with the
-    original content but a new style. This is outlined in 
-  </a>
-  <a href="https://arxiv.org/abs/1508.06576" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">A Neural Algorithm of Artistic Style</a> 
-  <a>. Below are some examples of stylization.</a>
-
-  <img style='height: 90%; width: 90%; object-fit: contain' src="resources/picasso.gif"/>
-  <div class="content_img_desc">
-    <a>Pablo Picasso</a> 
-    <a href="https://www.youtube.com/watch?v=CkRS3wDg1xU" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">painting on glass in 1937</a> 
-    <a>: stolen </a> 
-    <a href="https://medium.com/data-science-group-iitr/artistic-style-transfer-with-convolutional-neural-network-7ce2476039fd" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
-  </div>
-  
-  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi5.png"/>
-  <div class="content_img_desc">
-    <a>Corgi (content) + style</a> 
-  </div>
-
-  <a>
-    <br>
-    There are two main components to a style transfer:<br>
-    <ul>
-      <li>Image Transformation Network</li>
-      <li>Loss Network</li>
-    </ul>
-  </a>
-
-  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/model.png"/>
-  <div class="content_img_desc">
-    <a>Style transfer architecture: Image transformation network followed by the Loss Network (VGG-16)</a> 
-  </div>
-
-  <div class="content_bold">
-    <a>Image Transformation Network</a>
-  </div>
-
-  <a>
-    The image transformation network is the model that is trained. It takes in
-    your content image and returns your stylized output. To clarify, the input image
-    and the content image are the same for style transfer. Feeding a color image
-    of shape 3 x 256 x 256, the image transformation network returns
-    a stylized image of the same shape 3 x 256 x 256. 
-    
-    <img style='height: 100%; width: 100%; object-fit: contain' src="resources/autoencoder.png"/>
-    <div class="content_img_desc">
-      <a>Autoencoder architecture</a> 
-    </div>
-
-    <a>
-    There are many variations of the image transformation network. A commonly used
-    one is an
-    <a href="https://en.wikipedia.org/wiki/Autoencoder" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-      autoencoder</a> 
-    <a>
-    . An autoencoder first learns to represent the data in a smaller dimensional space
-    (encode), then learns to reconstruct the data (decode) to its original size.
-    The aim of an autoencoder is to learn useful properties of the data. 
-    To check out a popular type of autoencoder, see  </a>
-    <a href="https://towardsdatascience.com/u-net-b229b32b4a71" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-      UNet architecture</a> 
-    <a>.</a> 
-    <div class="content_bold">
-      <a>Loss Network</a>
-    </div>
-      <img style='height: 100%; width: 100%; object-fit: contain' src="resources/vgg16.png"/>
-      <div class="content_img_desc">
-        <a>VGG-16 architecture (our loss network)</a> 
-      </div>   
-    <a>
-      We want the style of our input image to be modified, but still
-      preserve its original content.
-      The loss network we'll be using is a 16-layer VGG network pretrained
-      on the ImageNet dataset. From our knowledge of Convolutional Neural Networks,
-      higher layers capture image content and overall spatial structure, where lower 
-      layers capture lower level features such as colors, textures, common patterns, etc. 
-      A nice visualization of convolutional features can be found </a>
-      <a href="https://towardsdatascience.com/how-to-visualize-convolutional-features-in-40-lines-of-code-70b7d87b0030" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-        here</a> 
-       <a>.</a>
-    <a>
-      <br>
-      <br>
-      We'll be using the loss network to calculate two losses: <br>
-      <ul>
-        <li>Content Loss</li>
-        <li>Style Loss</li>
-      </ul>
-    </a>
-    <a>    
-      <br>
-      <br>
-      The formulas for our loss functions come from Johnson's </a>
-    <a href="https://arxiv.org/abs/1603.08155" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-      Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a> 
-    <a>. We refer to their </a> 
-
-      <a style="font-style: italic;">
-        Feature Reconstruction Loss </a> 
-
-      <a> as </a> 
-
-      <a style="font-style: italic;">
-      Content Loss
-    </a>
-
-    <a>, and their
-    </a> 
-
-    <a style="font-style: italic;">
-      Style Reconstruction Loss
-    </a>
-
-    <a> as  
-    </a> 
-
-    <a style="font-style: italic;">
-      Style Loss
-    </a>
-
-    <a>
-    . The only modification we apply is by choosing
-    </a>
-    <a style="font-style: italic;">
-      relu2_2 </a> 
-    <a>
-      as our content loss feature representation versus the paper's choice of 
-    </a>
-    <a style="font-style: italic;">
-      relu3_3</a> 
+        <div class ="equation">
+          $$ L_{tv} = \lambda_{tv}\sum_{i,j}\left(\sqrt{{\lvert y_{i+1,j}-y_{i,j} \rvert}^2+{\lvert y_{i,j+1}-y_{i,j} \rvert}^2}\right)$$
+         </div>
+         where \(y\) is our output image, \(i\) and \(j\) represent pixel locations within the image, and \(\lambda_{tv}\) is ou regularization
+         parameter. The paper sets \(\lambda_{tv}\) between \(10e^{-6}\) and \(10e^{-4}\). 
+         <br>
+         <br>
+         Implemented with PyTorch:
+       </a>    
+      </div>
+      <div class="code_block">
+        <script src="https://gist.github.com/ThomasDougherty/870f06dedc8361cfd3819786c0d282cb.js"></script>
+     </div>
+     <div class="content">
       <a>
-        .
+        Some have stated that this regularization does not have much of a difference with their final results. Also,
       </a>
-
-
-    <div class="content_bold">
-      <a>Content Loss</a>
-    </div>
-    <a>
-      Rather than encouraging the pixels of the output image \(\hat{y}\) 
-      to exactly match the pixels of the content image \(y\), we instead encourage
-      them to have similar feature representations as computed by the loss
-      network \(\phi\). Let \(\phi_j\left( x \right)\) be the output of the 
-      \(j\)th layer of our loss network with a feature map shape of \(C_j \times H_j \times W_j\), 
-      while processing image \(x\). Our content loss is the Euclidean distance between
-      feature representations:
-      
-      $$L_{content} = \frac{1}{C_j H_j W_j}\| \phi_j\left( \hat{y} \right) - \phi_j\left(y \right) \|^2_2$$
-
-      
-      </a>
-      <img style='height: 100%; width: 100%; object-fit: contain' src="resources/elephant.png"/>
-      <div class="content_img_desc">
+      <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+        PyTorch's fast neural style</a>
         <a>
-          Optimization to finding an image \(\hat{y}\) that minimizes the content loss for
-          several layers from the pretrained VGG-16 loss network. Reconstructing from higher
-          layers preserve image content and overall spatial structure, but color, texture, and 
-          exact shape are not.
-        </a> 
-      </div>
-      <a>
-        Using this content loss encourages the output image \(\hat{y}\) to be perceptually similar
-        to the target image \(y\), but does not force them to exactly match.
-      </a>
-      <div class="content_bold">
-        <a>Style Loss</a>
-      </div>
-      <a>
-        We want to penalize the output image \(\hat{y}\) when it deviates 
-        from our style image in style: colors, textures, common patterns, etc. 
-        Let \(\phi_j\left( x \right)\) be the activations at the \(jth\) layer of the network
-        \(\phi\) for the input \(x\), which is a feature map of shape \(C_j \times H_j \times W_j\). 
-        The Gram matrix \(G_j^{\phi}\left(x \right) \) with shape \(C_j \times C_j\)
-        can be defined as:
-
-        $$G_j^{\phi}\left(x \right)_{c,c^{\prime}} = \frac{1}{C_j H_j W_j}
-        \sum_{h=1}^{H_j} \sum_{w=1}^{W_j} \phi_j\left( x \right)_{h,w,c} \phi_j\left( x \right)_{h,w,c^{\prime}}$$
-
-        The Gram matrix can be computed efficiently by reshaping \(\phi_j\left( x \right)\) into a 
-        matrix \(\psi\) of shape \(C_j \times H_j W_j\). Then our Gram matrix becomes: 
-
-        $$G_j^{\phi}\left(x \right) = \psi\psi^T/C_j H_j W_j$$
-
-        The style loss is then the mean square error between the Gram matricies of 
-        the output and target images:
-
-        $$ L_{style} = \frac{1}{N}\sum_{i=1}^{N}\left(G_{ij}^{\phi}\left(\hat{y} \right)-G_{ij}^{\phi}\left(y \right)\right)$$
-
-        where \(i\) is a data point. A short video that goes over the Gram Matrix in more detail can be found </a>
-        <a href="https://www.youtube.com/watch?v=DEK-W5cxG-g" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
-        <a>. Below is a PyTorch implementation of the Gram matrix.
-
-      </a>    
-</div>
-
-<div class="code_block">
-  <script src="https://gist.github.com/ThomasDougherty/6ba3f0fd4633070d428c8f9e2d1d2d66.js"></script>
-</div>
-
-<div class="content">
-  <h2>Video Style Transfer</h2>
-
-  <a>When style transfer is used frame-by-frame for videos, the stylized videos suffer
-    from an inconsistency between frames. This can be seen as a "popping" effect below. 
-  </a>
-
-  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_style.gif" alt="animated"/>
-  <div class="content_img_desc">
-  </div>
-    <a>One solution proposed by Manuel Ruder, Alexey Dosovitskiy, and Thomas Brox titled </a>
-    <a href="https://arxiv.org/abs/1604.08610" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-      Artistic style transfer for videos</a> 
-    <a>, presents a method of stabilizing videos by penalizing departures from the optical flow of the input video.
-      This method however is computationally expensive, taking minutes to transfer a single frame.
-    </a>
-
-    <div class="content_bold">
-      <a>Proposed Method</a>
+          &nbspdoes not use this regularization in their implementation. However, to be consistency with Element AI, we
+          add this regularization to our PyTorch implementation.
     </div>
 
-    <a>The methodology is proposed by Element AI's </a>
-    <a href="https://medium.com/element-ai-research-lab/stabilizing-neural-style-transfer-for-video-62675e203e42" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-      Stabilizing neural style-transfer for video</a> 
-   <a>. Their blog explains:</a>
+      <div class="content">
+         <h2>Video Style Transfer</h2>
+         <a>When style transfer is used frame-by-frame for videos, the stylized videos suffer
+         from an inconsistency between frames. This can be seen as a "popping" effect below. 
+         </a>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_style.gif" alt="animated"/>
+         <div class="content_img_desc">
+         </div>
+         <a>One solution proposed by Manuel Ruder, Alexey Dosovitskiy, and Thomas Brox titled </a>
+         <a href="https://arxiv.org/abs/1604.08610" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         Artistic style transfer for videos</a> 
+         <a>, presents a method of stabilizing videos by penalizing departures from the optical flow of the input video.
+         This method however is computationally expensive, taking minutes to transfer a single frame.
+         </a>
+         <div class="content_bold">
+            <a>Proposed Method</a>
+         </div>
+         <a>The methodology is proposed by Element AI's </a>
+         <a href="https://medium.com/element-ai-research-lab/stabilizing-neural-style-transfer-for-video-62675e203e42" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         Stabilizing neural style-transfer for video</a> 
+         <a>. Their blog explains:</a>
+         <div class="quote">
+            <a >The central idea employed here is that temporal instability and popping 
+            result from the style changing radically when the input changes very 
+            little. In fact, the changes in pixel values from frame-to-frame are 
+            largely noise.
+            </a>
+         </div>
+         <a>So the "popping" that appears in the video is really a sensitivity of change
+         between consecutive frames. Therefore, an additional loss is added during training.
+         By manually adding a small amount of noise to the images during training, the loss
+         focuses on minimizing the difference between the stylized versions of the original
+         image and the noisy image. By replicating the "popping" artificats, we now have
+         a loss that learns to suppress this noise.
+         </a>
+         <div class="content_bold">
+            <a>Modifications</a>
+         </div>
+         <a>Element AI starts with a </a>
+         <a href="https://github.com/yusuketomoto/chainer-fast-neuralstyle" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+         Chainer implementation</a>
+         <a>&nbspof Johnson's Perceptual Losses for Real-Time Style Transfer and Super-Resolution. We, however, will be implementing
+         this with PyTorch. Our base model comes from 
+         <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+          PyTorch's fast neural style</a>
+         <a>
+         &nbsprepository, which is also an implementation of Johnson's method.
+         </a>
+         <a>
+         <br>
+         <br>
+         We call a model stable if adding noise to our image results in a similar stylization as without. Let \({y}\) be our 
+         original stylized image, and \(\hat{y}\) be our stylized noisy image. We want a loss that represents how unstable our
+         model is, i.e. the model's ability to suppress the "popping" effect. Our loss is defined as:
 
-   <div class="quote">
-    <a >"The central idea employed here is that temporal instability and popping 
-      result from the style changing radically when the input changes very 
-      little. In fact, the changes in pixel values from frame-to-frame are 
-      largely noise."
-    </a>
-  </div>
+         <div class ="equation">
+         $$ L_{pop} = \frac{\lambda_{noise}}{N}\sum_{i=1}^{N}\left(y_i-\hat{y}\right)^2$$
+        </div>
 
-  <a>So the "popping" that appears in the video is really a sensitivity of change
-    between consecutive frames. Therefore, an additional loss is added during training.
-    By manually adding a small amount of noise to the images during training, the loss
-    focuses on minimizing the difference between the stylized versions of the original
-    image and the noisy image. By replicating the "popping" artificats, we now have
-    a loss that learns to suppress this noise.
-  </a>
-
-  <div class="content_bold">
-    <a>Modifications</a>
-  </div>
-
-  <a>Element AI starts with a </a>
-    <a href="https://github.com/yusuketomoto/chainer-fast-neuralstyle" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-      Chainer implementation</a>
-      <a>&nbspof Johnson's Perceptual Losses for Real-Time Style Transfer and Super-Resolution. We, however, will be implementing
-        this with PyTorch. Our base model comes from PyTorch's 
-        <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
-          fast neural style</a>
-          <a>
-            &nbsprepository, which is also an implementation of Johnson's method.
-      </a>
-      <a>
-        <br>
-        <br>
-        We call a model stable if adding noise to our image results in a similar stylization as without. Let \({y}\) be our 
-        original stylized image, and \(\hat{y}\) be our stylized noisy image. We want a loss that represents how unstable our
-        model is, i.e. the model's ability to suppress the "popping" effect. Our loss is defined as:
-        
-        $$ L_{pop} = \frac{\lambda_{noise}}{N}\sum_{i=1}^{N}\left(y_i-\hat{y}\right)^2$$
-
-        where \(\lambda_{noise}\) is a tuning parameter and \(i\) is a data point.
-
-        The original fast neural style loss function is computed below:
-      </a>
-</div>
-<div class="code_block">
-  <script src="https://gist.github.com/ThomasDougherty/d2806028b24a5aa03ca763e8320efca7.js"></script>
-</div>
+         where \(\lambda_{noise}\) is a tuning parameter and \(i\) is a data point.
+         <br>
+         <br>
+         The original fast neural style loss function is computed below, where
+         <code>lambda_feat</code>, <code>lambda_style</code>, and <code>lambda_tv</code>
+         are our feature loss, style loss, and total variation regularization, respectively:
+         </a>
+      </div>
+      <div class="code_block">
+         <script src="https://gist.github.com/ThomasDougherty/d2806028b24a5aa03ca763e8320efca7.js"></script>
+      </div>
+      <div class="content">
+         <a>         
+         Adding our new fourth loss component:
+         </a>
+      </div>
+      <div class="code_block">
+         <script src="https://gist.github.com/ThomasDougherty/7ad5cc23fab06061f5ba5fc03e843d37.js"></script>
+      </div>
+      <div class="content">
+         <div class="content_bold_postgit">
+            <a>Noise hyperparameters</a>
+         </div>
+         <a>
+         We introduce several tuning parameters for \(L_{pop}\):</a>
+         <a>
+            <ul>
+               <li><code>lambda_noise</code></li>
+               <li><code>noise_range</code></li>
+               <li><code>noise_count</code></li>
+            </ul>
+            Our <code>noisy_y</code> is our noisy image 
+         </a>
+      </div>
+      <div class="code_block">
+         <script src="https://gist.github.com/ThomasDougherty/5bfdb4ea9cfef8abcf65d8dfc7e0d53b.js"></script>
+      </div>
 
 
-<div class="content">
-  <a>
-    Adding our fourth loss component:
-  </a>
-</div>
-
-<div class="code_block">
-  <script src="https://gist.github.com/ThomasDougherty/7ad5cc23fab06061f5ba5fc03e843d37.js"></script>
-</div>
-
-
-
-<div class="content">
-  <a>
-    This is our new total loss function. There are several hyperparameters that we will go over with this additional loss.
-  </a>
-  <div class="content_bold">
-    <a>Noise hyperparameters</a>
-  </div>
-  <a>
-    We introduce several tuning parameters needed for \(L_{pop}\):</a>
-  <a><code>lambda_noise</code>
-    <ul>
-      <li><code>lambda_noise</code></li>
-      <li><code>noise_range</code></li>
-      <li><code>noise_count</code></li>
-    </ul>
-  </a>
-</div>
-
-<div class="code_block">
-  <script src="https://gist.github.com/ThomasDougherty/5bfdb4ea9cfef8abcf65d8dfc7e0d53b.js"></script>
-</div>
-
-<div class="content">
-  <div class="content_bold">
-    <a>
-      lambda_noise
-    </a>
-  </div>
-  
-</div>
-
-
-
-<div class="sidenav" >
-  <div class="instructorphoto">
-    <a href="https://thomasdougherty.github.io/">
-    <img src="resources/me_sd.jpg"/>
-  </a>
-  </div>
-    <a href="https://thomasdougherty.github.io/">
-    Thomas Dougherty
-  </a>
-  <div class="profile_links">
-    <a>
-      <img src="icons/email.png" onclick="emailClipboard(this)"/> 
-    </a>
-    <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
-      <img src="icons/git.png"/>
-    </a>
-    <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank">
-      <img src="icons/linkedin.png"/>
-    </a>
-    <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank">
-      <img src="icons/twitter.png"/>
-    </a>
-  </div>
-</div>
-
-<script>
-  $(window).bind('scroll', 'resize', function myFunction() {
-    var winWidth = $(window).width();
-    if ($(window).scrollTop() > 950 && winWidth >= 1250) {
-        $('.sidenav').show();
-    }
-    else {
-        $('.sidenav').hide();
-    }
-  });
-
-  $(window).on("resize", myFunction);
-  $(window).on("scroll", myFunction);
-  window.addEventListener('resize', myFunction);
-  </script>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-          
-</body>
+      
+      <div class="sidenav" >
+         <div class="instructorphoto">
+            <a href="https://thomasdougherty.github.io/">
+            <img src="resources/me_sd.jpg"/>
+            </a>
+         </div>
+         <a href="https://thomasdougherty.github.io/">
+         Thomas Dougherty
+         </a>
+         <div class="profile_links">
+            <a>
+            <img src="icons/email.png" onclick="emailClipboard(this)"/> 
+            </a>
+            <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
+            <img src="icons/git.png"/>
+            </a>
+            <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank">
+            <img src="icons/linkedin.png"/>
+            </a>
+            <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank">
+            <img src="icons/twitter.png"/>
+            </a>
+         </div>
+      </div>
+      <script>
+         $(window).bind('scroll', 'resize', function myFunction() {
+           var winWidth = $(window).width();
+           if ($(window).scrollTop() > 950 && winWidth >= 1250) {
+               $('.sidenav').show();
+           }
+           else {
+               $('.sidenav').hide();
+           }
+         });
+         
+         $(window).on("resize", myFunction);
+         $(window).on("scroll", myFunction);
+         window.addEventListener('resize', myFunction);
+      </script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   </body>
 </html>

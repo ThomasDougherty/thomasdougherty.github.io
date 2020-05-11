@@ -1,5 +1,4 @@
-/* CSS Document Metal Mania Oswald Barriecito IBM Plex Sans*/
-@import url('https://cdn.rawgit.com/lonekorean/gist-syntax-themes/848d6580/stylesheets/obsidian.css');
+
 
 body {
 	/*background: #f7f7f7;*/
@@ -21,17 +20,6 @@ html.darkmode body {
     top:10px;
 	right: 10px;
  }
-
-
-.dark-mode {
-	background: #141d26;
-	color: rgba(255, 255, 255, 0.87);
-	background: linear-gradient(#1f1e3a, #243447);
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-position: center top;
-  }
-
 
 /* Headings */
 
@@ -93,6 +81,43 @@ h4 {
 
 }
 
+.equation{
+	overflow-x: scroll;
+	overflow: auto;
+}
+
+
+
+
+ /*
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+	width: 3px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    background-color: rgba(153, 153, 153, 0.699);
+} 
+
+::-webkit-scrollbar-track {
+    border-radius: 1px;
+    background-color: rgba(201, 201, 201, 0.829);
+} 
+
+html.darkmode ::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+    background-color: rgba(54, 54, 54, 0.384);
+} 
+
+html.darkmode ::-webkit-scrollbar-track {
+    border-radius: 1px;
+    background-color: rgba(201, 201, 201, 0.829);
+} */
+
+
+
 /* Main page container */
 
 .header_img {
@@ -139,25 +164,33 @@ h4 {
 }
 
 .quote{
-	padding-top: 20px;
-	padding-bottom: 20px;	
-	font-style: italic
+	margin-top: 20px;
+	margin-bottom: 20px;	
+	font-style: italic;
+	border-left: 1px solid;
+	padding: 0px 0px 0px 15px;
+	border-color: rgb(0, 0, 0);
+}
+
+html.darkmode .quote{
+	border-color: rgb(238, 238, 238)
 }
 
 .quote a{
 	font-family: 'Serif';
-	
 }
 
 code {
+	color: rgb(0, 0, 0);
 	background-color: rgb(238, 238, 238);
     border-radius: 3px;
     font-family: courier, monospace;
     padding: 0 3px;
 }
 
-code {
-	background-color: rgb(238, 238, 238);
+html.darkmode code {
+	background: #465768;
+	color: rgba(255, 255, 255, 0.87);
     border-radius: 3px;
     font-family: courier, monospace;
     padding: 0 3px;
@@ -184,6 +217,13 @@ ul {
 	padding-bottom: 20px;	
 }
 .content_bold a{
+	font-weight: bold;
+}
+
+.content_bold_postgit{
+	padding-bottom: 20px;	
+}
+.content_bold_postgit a{
 	font-weight: bold;
 }
 
@@ -389,9 +429,15 @@ html {
 		padding-top: 40px;
 		padding-bottom: 30px;	
 	}
-	.quote{
-		padding-top: 40px;
+
+	.content_bold_postgit{
 		padding-bottom: 30px;	
+	}
+	.quote{
+		margin-top: 40px;
+		margin-bottom: 30px;
+		padding: 0px 30px 0px 30px;
+		border-left: 3px solid;	
 	}
 
 	h3 {
@@ -755,3 +801,96 @@ html {
 	  left: 1.125rem;
 	}
   }
+
+/* Git theme*/
+body .gist .highlight {
+background: #293134;
+}
+body .gist .blob-num,
+body .gist .blob-code-inner,
+body .gist .pl-ent,
+body .gist .pl-s1,
+body .gist .pl-s1 .pl-s2,
+body .gist .pl-smi,
+body .gist .pl-smp,
+body .gist .pl-stj,
+body .gist .pl-vo,
+body .gist .pl-vpf {
+    color: #e0e2e4;
+}
+body .gist .pl-c,
+body .gist .pl-c span {
+    color: #66747b;
+    font-style: italic;
+}
+body .gist .pl-mb {
+    color: #ec7600;
+    font-weight: 700;
+}
+body .gist .pl-mh .pl-en {
+    color: #66747b;
+    font-weight: 700;
+}
+body .gist .pl-mi {
+    color: #93c763;
+    font-style: italic;
+}
+body .gist .pl-sc {
+    color: #96989a;
+}
+body .gist .pl-st {
+    color: #da4236;
+}
+body .gist .pl-c1>.pl-c1 {
+    color: #678cb1;
+}
+body .gist .pl-c1,
+body .gist .pl-sr .pl-cce {
+    color: #ffcd22;
+}
+body .gist .pl-e,
+body .gist .pl-k,
+body .gist .pl-mdh,
+body .gist .pl-mdr,
+body .gist .pl-ml,
+body .gist .pl-mm,
+body .gist .pl-mo,
+body .gist .pl-mp,
+body .gist .pl-mr,
+body .gist .pl-ms,
+body .gist .pl-s1 .pl-v,
+body .gist .pl-s3 {
+    color: #93c763;
+}
+body .gist .pl-en,
+body .gist .pl-v {
+    color: #678cb1;
+}
+body .gist .pl-mh,
+body .gist .pl-mq {
+    color: #66747b;
+}
+body .gist .pl-pds,
+body .gist .pl-s,
+body .gist .pl-s1 .pl-pse .pl-s2,
+body .gist .pl-sv {
+    color: #ec7600;
+}
+body .gist .pl-sr,
+body .gist .pl-sr .pl-sra,
+body .gist .pl-sr .pl-sre,
+body .gist .pl-src {
+    color: #d39745;
+}
+body .gist .pl-mi1,
+body .gist .pl-mdht {
+    color: #e0e2e4;
+    background: rgba(0, 64, 0, .5);
+}
+body .gist .pl-md,
+body .gist .pl-mdhf,
+body .gist .pl-id,
+body .gist .pl-ii {
+    color: #e0e2e4;
+    background: rgba(64, 0, 0, .5);
+} 
