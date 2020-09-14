@@ -63,6 +63,19 @@ $(function(){
 })
   </script>
 
+  <script>
+    // start up script to check user preference
+    var preference = window.matchMedia('(prefers-color-scheme: dark)');
+    var startToggle = false;
+    if (preference.matches){
+    document.getElementById("mytoggle").checked = true;
+    document.documentElement.classList.add('darkmode');
+    }
+    else{
+      document.getElementById("mytoggle").checked = false;
+      document.documentElement.classList.remove('darkmode');
+    }
+  </script>
   <div class="profile">
     <table width="100%" cellpadding="10">
       <tr>	

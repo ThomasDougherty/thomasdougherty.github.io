@@ -135,6 +135,34 @@ html.darkmode ::-webkit-scrollbar-track {
 	text-align: left;
 }
 
+
+.github-comments {
+	width: 90%;
+	margin: 20px auto; /* top and bottom, right and left */
+	/* border: none; */
+	text-align: left;
+	border-top: 1px solid;
+}
+
+.github-comments a{
+	font-size:15px;
+	font-family: 'sans-serif';
+	line-height: 1.6;
+	color: inherit;
+}
+
+.github-comments img {
+	border-radius: 25px;
+	width: 25px;
+	text-decoration: none;
+  }
+
+  hr{
+	height: 1px;
+	background-color: #ccc;
+	border: none;
+}
+
 .content a{
 	font-size:20px;
 	font-family: 'sans-serif';
@@ -392,6 +420,35 @@ html {
 		padding-bottom: 20px;	
 	}
 
+	.github-comments {
+		width: 90%;
+		max-width: 800px;
+		margin: 40px auto; /* top and bottom, right and left */
+		/* border: none; */
+		background-color: rgb(9, 255, 0);
+
+	}
+	
+	.url-right{
+		text-align: right;
+		border-bottom: 2px solid rgb(160, 160, 160);
+		background-color: orange;
+	}
+	
+	.comment-url{
+		text-align: right;
+		border-bottom: 2px solid rgb(160, 160, 160);
+		background-color: rgb(255, 30, 0);
+		width: 100%;
+	}
+
+	.github-comments img {
+		border-radius: 60px;
+		width: 60px;
+		text-decoration: none;
+
+	  }
+
 	.post_header {
 		width: 90%;
 		max-width: 800px;
@@ -467,6 +524,7 @@ html {
   
   #container {
 	width: 12.25rem;
+	background-color: orange;
 	height: 5.5rem;
 	margin: 0;
 	grid-area: main;
@@ -475,6 +533,7 @@ html {
 	align-self: center;
 	-ms-grid-column-align: center;
 	justify-self: center;
+	
   }
   
   .toggle {

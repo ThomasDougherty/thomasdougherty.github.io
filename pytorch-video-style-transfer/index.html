@@ -129,7 +129,7 @@
          with video style transfer, and Element AI's approach towards video style transfer. Please skip to whatever 
          is most relevant to you. All code can be found
          </a>
-         <a href="https://github.com/ThomasDougherty/pytorch-video-style-transfer" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
+         <a href="https://github.com/ThomasDougherty/video-style-transfer" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
          <a>.</a>
       </div>
       <div class="content">
@@ -440,7 +440,75 @@
          <script src="https://gist.github.com/ThomasDougherty/5bfdb4ea9cfef8abcf65d8dfc7e0d53b.js"></script>
       </div>
 
+      <!-- Comments section -->
+      <script>
+         const GH_API_URL = 'https://api.github.com/repos/ThomasDougherty/thomasdougherty.github.io/issues/1/comments';
+         
+         let request = new XMLHttpRequest();
+         request.open( 'GET', GH_API_URL, true );
+         request.onload = function() {
+            if ( this.status >= 200 && this.status < 400 ) {
+               let response = JSON.parse( this.response );
+         
+               for ( var i = 0; i < response.length; i++ ) {
+                  document.getElementById( 'gh-comments-list' ).appendChild( createCommentEl( response[ i ] ) );
+               }
+         
+               if ( 0 === response.length ) {
+                  document.getElementById( 'no-comments-found' ).style.display = 'block';
+               }
+            } else {
+               console.error( this );
+            }
+         };
+         
+         function createCommentEl( response ) {
+            let user = document.createElement( 'a' );
+            user.setAttribute( 'href', response.user.html_url );
+            user.classList.add( 'user' );
+         
+            let userAvatar = document.createElement( 'img' );
+            userAvatar.classList.add( 'avatar' );
+            userAvatar.setAttribute( 'src', response.user.avatar_url );
+            
+            user.appendChild( userAvatar );
+         
+            let commentLink = document.createElement( 'a' );
+            commentLink.setAttribute( 'href', response.html_url);
+            commentLink.classList.add( 'comment-url' );
+            commentLink.innerHTML = ' #' + response.id + ' - ' + response.created_at;
 
+            let commentContents = document.createElement( 'a' );
+            commentContents.classList.add( 'comment-content' );
+            commentContents.innerHTML = '   ' + response.body;   
+
+
+            let comment = document.createElement( 'dt' );
+            comment.setAttribute( 'data-created', response.created_at );
+            comment.setAttribute( 'data-author-avatar', response.user.avatar_url );
+            comment.setAttribute( 'data-user-url', response.user.url);
+         
+            comment.appendChild( user );
+            comment.appendChild( commentContents );
+            comment.appendChild( commentLink );
+
+         
+            return comment;
+         }
+         request.send();
+         </script>
+         
+         
+         <div class="github-comments">
+            <h2>Comments</h2>
+            <a id="leave-a-comment">Leave a comment for this post on <a href="https://github.com/ThomasDougherty/thomasdougherty.github.io/issues/1" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">this ticket!</a></a>
+            
+            <div id="gh-comments-list">
+               <div class="url-right">
+                  <a id="comment-url"></a>
+               </div>
+            </div>
+         </div>
       
       <div class="sidenav" >
          <div class="instructorphoto">
