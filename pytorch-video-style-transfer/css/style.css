@@ -17,8 +17,8 @@ html.darkmode body {
 
 .topcorner{
 	position: absolute;
-    top:-7px;
-	right: -15px;
+    top:10px;
+	right: 10px;
 	-webkit-transform: scale(0.4);
 	-moz-transform: scale(0.4);
 		 transform: scale(0.4);
