@@ -480,14 +480,18 @@
 
             let commentContents = document.createElement( 'a' );
             commentContents.classList.add( 'comment-content' );
-            commentContents.innerHTML = '   ' + response.body;   
+            commentContents.innerHTML = ' --------------------------  ' + response.body;   
 
+            let buffer = document.createElement( 'div' );
+            buffer.classList.add( 'buffer' );
 
             let comment = document.createElement( 'dt' );
+            comment.setAttribute( 'buff', response.created_at );
             comment.setAttribute( 'data-created', response.created_at );
             comment.setAttribute( 'data-author-avatar', response.user.avatar_url );
             comment.setAttribute( 'data-user-url', response.user.url);
          
+            comment.appendChild( buffer );
             comment.appendChild( user );
             comment.appendChild( commentContents );
             comment.appendChild( commentLink );
@@ -502,11 +506,8 @@
          <div class="github-comments">
             <h2>Comments</h2>
             <a id="leave-a-comment">Leave a comment for this post on <a href="https://github.com/ThomasDougherty/thomasdougherty.github.io/issues/1" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">this ticket!</a></a>
-            
             <div id="gh-comments-list">
-               <div class="url-right">
                   <a id="comment-url"></a>
-               </div>
             </div>
          </div>
       
