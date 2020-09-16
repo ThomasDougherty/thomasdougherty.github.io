@@ -41,15 +41,9 @@ h3 {
 	  font-size:15px;
 	  line-height: 1.6;
 	  font-family: 'sans-serif', 'Lato', Verdana, Helvetica, sans-serif;
-	  color: rgb(138, 138, 138);
+	  opacity: 0.7;
 }
 
-h4 {
-	font-size:12px;
-	line-height: 1.6;
-	font-family: 'sans-serif', 'Lato', Verdana, Helvetica, sans-serif;
-	color: rgb(138, 138, 138);
-}
 
 .profile_links img {
 	width: 30%;
@@ -188,7 +182,7 @@ html.darkmode .quote{
 
 code {
 	color: rgb(0, 0, 0);
-	background-color: rgb(238, 238, 238);
+	background-color: rgb(220, 220, 220);
     border-radius: 3px;
     font-family: courier, monospace;
     padding: 0 3px;
@@ -239,7 +233,8 @@ ul {
 }
 
 .post_line{
-	border-bottom: 1px solid rgba(160, 160, 160);
+	border-bottom: 1px solid;
+	opacity: 0.7;
 	width: 90%;
 	margin: 20px auto; /* top and bottom, right and left */
 	/* border: none; */
