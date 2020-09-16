@@ -39,7 +39,6 @@ h1 {
 
 h2 {
 	font-size:17px;
-	color: rgb(160, 160, 160)
 }
 
 
@@ -207,11 +206,23 @@ html {
 		padding: 20px 50px 25px 50px; /* top, right, bottom, left */
 	}
 	.post_header {
-	border-bottom: 2px solid rgb(160, 160, 160);
+	border-bottom: 2px solid;
 	width: 90%;
 	max-width: 800px;
 	margin: 40px auto; /* top and bottom, right and left */
 	}
+
+	.post_line{
+		border-bottom: 1px solid;
+		opacity: 0.7;
+		width: 90%;
+		margin: 20px auto; /* top and bottom, right and left */
+		/* border: none; */
+		text-align: left;
+		clear: both;
+	}
+
+
 	.post_date{
 		font-size:17px;
 		padding-top: 15px;
