@@ -136,32 +136,10 @@ html.darkmode ::-webkit-scrollbar-track {
 }
 
 
-.github-comments {
-	width: 90%;
-	margin: 20px auto; /* top and bottom, right and left */
-	/* border: none; */
-	text-align: left;
-	border-top: 1px solid;
-}
 
-.github-comments a{
-	font-size:15px;
-	font-family: 'sans-serif';
-	line-height: 1.6;
-	color: inherit;
-}
 
-.github-comments img {
-	border-radius: 25px;
-	width: 25px;
-	text-decoration: none;
-  }
 
-  hr{
-	height: 1px;
-	background-color: #ccc;
-	border: none;
-}
+
 
 .content a{
 	font-size:20px;
@@ -187,7 +165,7 @@ html.darkmode ::-webkit-scrollbar-track {
 	text-align: center;
 	font-size: 15px;
 	padding-bottom: 20px;
-	color: rgb(119, 119, 119);	
+	opacity: 0.7;
 	font-family: 'Tahoma';
 }
 
@@ -222,18 +200,6 @@ html.darkmode code {
     border-radius: 3px;
     font-family: courier, monospace;
     padding: 0 3px;
-}
-
-
-
-.content_img_desc a{
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	font-size: 15px;
-	padding-bottom: 20px;
-	color: rgb(119, 119, 119);	
-	font-family: 'Tahoma';
 }
 
 ul {
@@ -335,6 +301,71 @@ ul {
 	width: 40px;
   }
 
+/* Comment section*/
+
+.github-comments {
+	width: 90%;
+	margin: 20px auto; /* top and bottom, right and left */
+	/* border: none; */
+	text-align: left;
+	max-width: 800px;
+}
+
+.github-comments a{
+	font-size:20px;
+	font-family: 'sans-serif';
+	line-height: 1.6;
+	color: inherit;
+}
+
+.github-comments img {
+	border-radius: 25px;
+	width: 25px;
+	text-decoration: none;
+  }
+
+.github-comments .comment-url{
+	font-size: 14px;
+}
+
+.github-comments .comment-content{
+	font-size: 17px;
+	font-weight: normal;
+	overflow: hidden;
+}
+
+.github-comments .created-content{
+	font-size: 17px;
+	font-weight: normal;
+	overflow: hidden;
+	opacity: 0.7;
+}
+
+.github-comments .user-name{
+	font-size: 20px;
+	opacity: 0.8;
+}
+
+.comment-url{
+	text-align: right;
+	float: right;
+	width: 100%;
+	font-weight: normal;
+	border-bottom:1px solid;
+	opacity: 0.7;
+}
+
+.buffer{
+	padding-bottom: 40px;
+}
+
+.github-comments img {		
+	border-radius: 50px;
+	width: 50px;
+	text-decoration: none;
+	float: left;
+	margin-right:1rem;
+	}
 
 /* Not being used */
 
@@ -421,29 +452,24 @@ html {
 		padding-bottom: 20px;	
 	}
 
+	/* Comment section*/
+
 	.github-comments {
-		width: 90%;
-		max-width: 800px;
 		margin: 40px auto; /* top and bottom, right and left */
-		/* border: none; */
 	}
-	
+
+	.github-comments .comment-url{
+		font-size: 17px;
+	}
+
 	.github-comments .comment-content{
+		font-size: 17px;
+		font-weight: normal;
+		overflow: hidden;
+	}
+
+	.github-comments .created-content{
 		font-size: 20px;
-		font-weight: normal;
-	}
-
-	.comment-content{
-		background-color: orange;
-		float: right;
-	}
-
-	.comment-url{
-		text-align: right;
-		border-bottom: 2px solid;
-		float: right;
-		width: 100%;
-		font-weight: normal;
 	}
 
 	.buffer{
@@ -451,9 +477,11 @@ html {
 	}
 
 	.github-comments img {		
-		border-radius: 40px;
-		width: 40px;
+		border-radius: 70px;
+		width: 70px;
 		text-decoration: none;
+		float: left;
+		margin-right:1rem;
 	  }
 
 	.post_header {
@@ -463,7 +491,7 @@ html {
 
 	.post_line {
 		border-bottom: 2px solid rgb(160, 160, 160);
-		width: 90%;
+		width: 100%;
 		max-width: 800px;
 		clear: both;
 	}

@@ -472,36 +472,47 @@
             userAvatar.setAttribute( 'src', response.user.avatar_url );
             
             user.appendChild( userAvatar );
-         
+
             let commentLink = document.createElement( 'a' );
             commentLink.setAttribute( 'href', response.html_url);
             commentLink.classList.add( 'comment-url' );
             commentLink.innerHTML = ' #' + response.id + ' - ' + response.created_at;
 
-            let commentContents = document.createElement( 'a' );
+            let userName = document.createElement( 'a' );
+            userName.setAttribute( 'href', response.html_url);
+            userName.classList.add( 'user-name' );
+            userName.innerHTML = response.user.login; 
+
+            let createdContents = document.createElement( 'a' );
+            createdContents.classList.add( 'created-content' );
+            createdContents.innerHTML = ' commented:' + "<br />";  
+
+            let commentContents = document.createElement( 'p' );
             commentContents.classList.add( 'comment-content' );
-            commentContents.innerHTML = ' --------------------------  ' + response.body;   
+            commentContents.innerHTML = response.body;   
 
             let buffer = document.createElement( 'div' );
             buffer.classList.add( 'buffer' );
-
+            
             let comment = document.createElement( 'dt' );
             comment.setAttribute( 'buff', response.created_at );
             comment.setAttribute( 'data-created', response.created_at );
+            comment.setAttribute( 'user-name', response.user.login );
+            comment.setAttribute( 'created-name', response.user.login );
             comment.setAttribute( 'data-author-avatar', response.user.avatar_url );
             comment.setAttribute( 'data-user-url', response.user.url);
          
             comment.appendChild( buffer );
             comment.appendChild( user );
+            comment.appendChild( userName )
+            comment.append( createdContents )
             comment.appendChild( commentContents );
             comment.appendChild( commentLink );
-
          
             return comment;
          }
          request.send();
          </script>
-         
          
          <div class="github-comments">
             <h2>Comments</h2>
@@ -510,6 +521,7 @@
                   <a id="comment-url"></a>
             </div>
          </div>
+
       
       <div class="sidenav" >
          <div class="instructorphoto">
