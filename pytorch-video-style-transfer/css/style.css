@@ -37,6 +37,7 @@ html.darkmode body {
 		padding-bottom:56.25%;
 		position:relative;
 		height:0;
+		margin: 40px auto
 	}
 	.video-responsive iframe{
 		left:0;
