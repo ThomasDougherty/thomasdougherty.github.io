@@ -55,27 +55,63 @@
 </div>
 
 <script>
+  // toggle cookie stuff
+  function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+</script>
+<script>
+  // start up script to check user preference
+  var preference = window.matchMedia('(prefers-color-scheme: dark)');
+  var startToggle = false;
+  var pFlag = true;
 
-$(function(){
-  $("#mytoggle").change(function() {
-    $("body").toggleClass("dark-mode", this.checked)
-  }).change();
-})
-  </script>
+  var tdogState = getCookie("tdog");
+  if(tdogState == "dark"){
+  document.getElementById("mytoggle").checked = true;
+  document.documentElement.classList.add('darkmode');
+  pFlag = false;
+  }
+  if(tdogState == "light"){
+  pFlag = false;
+  document.getElementById("mytoggle").checked = false;
+  document.documentElement.classList.remove('darkmode');
+  }
+  if (pFlag){
+     if (preference.matches){
+     document.getElementById("mytoggle").checked = true;
+     document.documentElement.classList.add('darkmode');
+     }
+     else{
+     document.getElementById("mytoggle").checked = false;
+     document.documentElement.classList.remove('darkmode');
+     }
+  }
+</script>
 
-  <script>
-    // start up script to check user preference
-    var preference = window.matchMedia('(prefers-color-scheme: dark)');
-    var startToggle = false;
-    if (preference.matches){
-    document.getElementById("mytoggle").checked = true;
-    document.documentElement.classList.add('darkmode');
-    }
-    else{
-      document.getElementById("mytoggle").checked = false;
-      document.documentElement.classList.remove('darkmode');
-    }
-  </script>
+
+<script>
+  $(function(){
+    $("#mytoggle").change(function() {
+      if (startToggle){
+        if (document.getElementById("mytoggle").checked){
+          document.documentElement.classList.add('darkmode');
+          document.cookie = "tdog=dark"
+        }
+        else {
+           document.cookie = "tdog=light"
+          document.documentElement.classList.remove('darkmode');
+        }
+      } else {
+        startToggle = true;
+      }
+    }).change();
+  })
+</script>
+
   <div class="profile">
     <table width="100%" cellpadding="10">
       <tr>	

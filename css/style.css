@@ -14,7 +14,7 @@ body {
  }
 
 
-.dark-mode {
+html.darkmode body {
 	background: #141d26;
 	color: rgba(255, 255, 255, 0.87);
 	background: linear-gradient(#1f1e3a, #243447);
@@ -23,11 +23,6 @@ body {
 	background-position: center top;
   }
 
-  .dark-mode-post {
-	background: #2d5383;
-	color: rgb(255, 255, 255);
-	background: linear-gradient(#112641, #09092085);
-  }
 
 /* Headings */
 
