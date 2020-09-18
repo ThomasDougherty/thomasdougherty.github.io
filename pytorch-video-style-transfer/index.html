@@ -15,7 +15,7 @@
       <meta name = "description=" content="Thomas Dougherty Blog and posts on machine learning, deep learning, and computer vision topics">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -31,7 +31,7 @@
    </head>
    <body>
       <div class="header_img">
-         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_video_style.gif" alt="animated"/>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/small/swflip.gif" alt="animated"/>
       </div>
       <div class="topcorner">
          <div id="container">
@@ -144,13 +144,7 @@
          </a>
          <a href="https://arxiv.org/abs/1508.06576" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">A Neural Algorithm of Artistic Style</a> 
          <a>. Below are some examples of stylization.</a>
-         <img style='height: 90%; width: 90%; object-fit: contain' src="resources/picasso.gif"/>
-         <div class="content_img_desc">
-            <a>Pablo Picasso</a> 
-            <a href="https://www.youtube.com/watch?v=CkRS3wDg1xU" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">painting on glass in 1937</a> 
-            <a>: stolen </a> 
-            <a href="https://medium.com/data-science-group-iitr/artistic-style-transfer-with-convolutional-neural-network-7ce2476039fd" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">here</a> 
-         </div>
+
          <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi5.png"/>
          <div class="content_img_desc">
             <a>Corgi (content) + style</a> 
@@ -348,7 +342,7 @@
          <a>When style transfer is used frame-by-frame for videos, the stylized videos suffer
          from an inconsistency between frames. This can be seen as a "popping" effect below. 
          </a>
-         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/swflip_style.gif" alt="animated"/>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/small/swflip_noise.gif" alt="animated"/>
          <div class="content_img_desc">
          </div>
          <a>One solution proposed by Manuel Ruder, Alexey Dosovitskiy, and Thomas Brox titled </a>
@@ -430,15 +424,47 @@
          <a>
             <ul>
                <li><code>lambda_noise</code></li>
-               <li><code>noise_range</code></li>
+               <li><code>noise</code></li>
                <li><code>noise_count</code></li>
             </ul>
-            Our <code>noisy_y</code> is our noisy image 
+            Our <code>noisy_y</code> is our noisy image. <code>lambda_noise</code> is our \(L_{pop}\) regularization. 
+            <code>noise</code> is the range of pixel values the noise takes. <code>noise_count</code> is the number of 
+            noisy pixels added to the image.
          </a>
       </div>
+      
       <div class="code_block">
          <script src="https://gist.github.com/ThomasDougherty/5bfdb4ea9cfef8abcf65d8dfc7e0d53b.js"></script>
       </div>
+
+      <div class="content">
+         <a>
+            From our experiments and results below, we found these values to be the best for our styles:
+            <li><code>lambda_feat</code>: 10</li>
+            <li><code>lambda_style</code>: 1</li>
+            <li><code>lambda_noise</code>: 3000</li>
+            <li><code>lambda_tv</code>: 0.0001</li>
+            <li><code>noise</code>: 200</li>
+            <li><code>noise_count</code>: 8000</li>
+         </ul>
+         </a>
+      </div>
+
+      <div class="content">
+         <h2>Results</h2>
+         <a>
+            Below are results of different styles on the same video. One thing I noticed is that for scenes
+         </a>
+
+         <div class="video-responsive">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/VAaotVg_CqI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;" allowfullscreen></iframe>
+         </div>
+      </div>
+
+
+
+
+
 
       <!-- Comments section -->
       <script>

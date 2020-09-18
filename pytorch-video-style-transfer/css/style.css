@@ -24,6 +24,27 @@ html.darkmode body {
 		 transform: scale(0.4);
  }
 
+ .youtube-box { 
+	 flex-grow: 1; 
+	 border: none; 
+	 margin: 0; 
+	 padding: 0; 
+	
+	}
+
+	.video-responsive{
+		overflow:hidden;
+		padding-bottom:56.25%;
+		position:relative;
+		height:0;
+	}
+	.video-responsive iframe{
+		left:0;
+		top:0;
+		height:100%;
+		width:100%;
+		position:absolute;
+	}
 /* Headings */
 
 h1 {
@@ -141,11 +162,6 @@ html.darkmode ::-webkit-scrollbar-track {
 	/* border: none; */
 	text-align: left;
 }
-
-
-
-
-
 
 
 .content a{
