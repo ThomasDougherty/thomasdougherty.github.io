@@ -99,10 +99,10 @@
       if (startToggle){
         if (document.getElementById("mytoggle").checked){
           document.documentElement.classList.add('darkmode');
-          document.cookie = "tdog=dark"
+          document.cookie = "tdog=dark;path=/"
         }
         else {
-           document.cookie = "tdog=light"
+           document.cookie = "tdog=light;path=/"
           document.documentElement.classList.remove('darkmode');
         }
       } else {
