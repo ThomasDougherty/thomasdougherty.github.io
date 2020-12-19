@@ -11,7 +11,7 @@
          gtag('config', 'UA-161322277-1');
       </script>
       <link rel="shortcut icon" type="image/x-icon" href="teasers/favicon.ico" />
-      <title>Class Style Transfer with Google Colab</title>
+      <title>Class Style Transfer using Google Colab</title>
       <meta name = "description=" content="Thomas Dougherty Blog and posts on machine learning, deep learning, and computer vision topics">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta property="og:image" content="resources/video_style_cover_2_small.png" />
@@ -33,7 +33,7 @@
    </head>
    <body>
       <div class="header_img">
-         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/small/swflip.gif" alt="animated"/>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/frame_00072.png"/>
       </div>
       <div class="topcorner">
          <div id="container">
@@ -122,7 +122,7 @@
       </script>
       <input type = "text" value="tdougherty84@gmail.com" id="myInput" style="position: relative; left: -10000px;">
       <div class="post_header">
-         <h1>Class Style Transfer with Google Colab</h1>
+         <h1>Class Style Transfer using Google Colab</h1>
          <h3>December 20th, 2020
          </h3>
          <div class="post_left">
@@ -156,7 +156,17 @@
             access to any resources except an internet connection.
          </a>
       </div>
+
       <div class="content">
+
+         <h2>Table of contents</h2><a>
+         <ul>
+            <a href="#sectionId"><li>How to use</li></a>
+            <a href="#sectionId"><li>Select options</li></a>
+            <a href="#sectionId"><li>Common errors</li></a>
+            <a href="#sectionId"><li>Behind the scenes</li></a>
+         </ul>
+
          <h2>How to use</h2>
             
          <a>The first thing you will need is a Google account to access Google Colab.<br /> <br /> 
@@ -177,7 +187,7 @@
          </div>
 
          <div class="content_bold">
-            <a>Running</a>
+            <a>RUNNING</a>
          </div>
 
          <a>
@@ -197,18 +207,146 @@
          <div class="content_img_desc">
          <a>Selecting media files</a> 
       </div>
-
-
-
          <a>
-            <br>
-            Colab is able to provide free resources in part by having dynamic usage limits that sometimes fluctuate, and by not providing guaranteed or unlimited resources. This means that overall usage limits as well as idle timeout periods, maximum VM lifetime, GPU types available, and other factors vary over time. Colab does not publish these limits, in part because they can (and sometimes do) vary quickly.<br>
-            <ul>
-               <li>Image Transformation Network</li>
-               <li>Loss Network</li>
-            </ul>
+            The code will start running. You can see the progress under the <code>Main</code> section. This may take a couple minutes
+            depending on the length and resolution of the selected media.<br /> <br /> 
+            When completed, your final product will be in the <code>finished_products</code> folder to the left. You can download the media file 
+            by pressing to the right of name.
          </a>
          
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/main_download.png"/>
+         <div class="content_img_desc">
+         <a>Main section shows the progress and the finished product can be downloaded to the side </a>  
+         
+      </div>
+
+      <h2>Select options</h2>
+         <a>
+            There are several options that the user can choose from.
+            <br>
+            <ul>
+               <li><code>PEOPLE</code></li>
+               <li><code>SKATEBOARD</code></li>
+               <li><code>OTHER_CLASSES</code></li>
+               <li><code>STYLE</code></li>
+               <li><code>INVERSE</code></li>
+               <li><code>CLASS_SPECIFIC</code></li>
+               <li><code>FPS_30</code></li>
+            </ul>
+         </a>
+         <div class="content_bold">
+            <a>CLASSES</a>
+         </div>
+            <a>
+            <code>PEOPLE</code>, <code>SKATEBOARD</code>, and <code>OTHER_CLASSES</code> correspond to the classes the user want styilized. For example,
+            if I check both <code>PEOPLE</code> and <code>SKATEBOARD</code> options, only detected persons and skateboards will be stylized as shown below.</a>
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/frame_00072.png"/>
+            <div class="content_img_desc">
+               <a><code>SKATEBOARD</code> option selected</a> 
+               </div>
+            <a><code>OTHER_CLASSES</code> is a write in option. The user can write in other classes available in this section, separated by commas. 
+               Here's a list of classes available to choose from: <br> <br>
+               <code>person</code>, <code>bicycle</code>, <code>car</code>, <code>motorcycle</code>, <code>airplane</code>, <code>bus</code>, <code>train</code>, <code>truck</code>, <code>boat</code>, <code>traffic light</code>, <code>fire hydrant</code>, <code>stop sign</code>, <code>parking meter</code>, <code>bench</code>, <code>bird</code>, <code>cat</code>, <code>dog</code>, <code>horse</code>, <code>sheep</code>, <code>cow</code>, <code>elephant</code>, <code>bear</code>, <code>zebra</code>, <code>giraffe</code>, <code>backpack</code>, <code>umbrella</code>, <code>handbag</code>, <code>tie</code>, <code>suitcase</code>, <code>frisbee</code>, <code>skis</code>, <code>snowboard</code>, <code>sports ball</code>, <code>kite</code>, <code>baseball bat</code>, <code>baseball glove</code>, <code>skateboard</code>, <code>surfboard</code>, <code>tennis racket</code>, <code>bottle</code>, <code>wine glass</code>, <code>cup</code>, <code>fork</code>, <code>knife</code>, <code>spoon</code>, <code>bowl</code>, <code>banana</code>, <code>apple</code>, <code>sandwich</code>, <code>orange</code>, <code>broccoli</code>, <code>carrot</code>, <code>hot dog</code>, <code>pizza</code>, <code>donut</code>, <code>cake</code>, <code>chair</code>, <code>couch</code>, <code>potted plant</code>, <code>bed</code>, <code>dining table</code>, <code>toilet</code>, <code>tv</code>, <code>laptop</code>, <code>mouse</code>, <code>remote</code>, <code>keyboard</code>, <code>cell phone</code>, <code>microwave</code>, <code>oven</code>, <code>toaster</code>, <code>sink</code>, <code>refrigerator</code>, <code>book</code>, <code>clock</code>, <code>vase</code>, <code>scissors</code>, <code>teddy bear</code>, <code>hair drier</code>, <code>toothbrush</code>            
+            .
+            <br><br>
+            So if you were to select the <code>SKATEBOARD</code> option and type <code>dog</code> in the <code>OTHER_CLASSES</code> section, the stylization 
+            would be done on the classes as shown below.
+            </a>
+
+
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_dog_skateboard.png"/>
+            <div class="content_img_desc">
+               <a><code>SKATEBOARD</code> and <code>dog</code> classes chosen</a> 
+               </div>
+               <div class="content_bold">
+                  <a>STYLE</a>
+               </div>
+               <a>
+                  <code>STYLE</code> option allows you to choose from 4 of our pretrained styles, or you can upload your own pretrained weights by selecting 
+                  <code>pretrained</code> (the weights would have
+                  to come from PyTorch's fast-neural-style model). 
+                  <br><br>
+                  The 4 styles available are shown below:
+                  <br><br>
+               </a>
+                  <a><code>candy</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_candy.png"/>
+                  <div class="content_img_desc">
+                     <a><code>candy</code> style</a> 
+                     </div>
+
+                  <a><code>mosaic</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_mosaic.png"/>
+                  <div class="content_img_desc">
+                     <a><code>mosaic</code> style</a> 
+                     </div>
+
+                  <a><code>rain_princess</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_rain.png"/>
+                  <div class="content_img_desc">
+                     <a><code>rain_princess</code> style</a> 
+                     </div>
+
+                  <a><code>undie</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_undie.png"/>
+                  <div class="content_img_desc">
+                     <a><code>undie</code> style</a> 
+                     </div>
+
+                  
+               <div class="content_bold">
+                  <a>INVERSE</a>
+               </div>
+               <a>
+            <code>INVERSE</code> option stylizes everything but the selected class. If I were to keep my settings from the last image 
+            and select the <code>INVERSE</code> option, then the stylization will look like below.
+         </a>
+
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_inverse.png"/>
+            <div class="content_img_desc">
+               <a><code>SKATEBOARD</code> and <code>dog</code> classes chosen</a> 
+               </div>
+         <div class="content_bold">
+            <a>CLASS_SPECIFIC</a>
+         </div>
+         <a>
+            <code>CLASS_SPECIFIC</code> option indicates whether the stylization should apply to the classes only or the entire image.
+            If I were to uncheck the <code>CLASS_SPECIFIC</code> option, then the entire image would be stylizied as shown below.
+         </a>
+
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_noclass.png"/>
+         <div class="content_img_desc">
+            <a><code>CLASS_SPECIFIC</code> unchecked</a> 
+            </div>
+
+            <div class="content_bold">
+               <a>FPS_30</a>
+            </div>
+         <a>
+            If uploading a video, <code>FPS_30</code> option changes the final video to be 30 frames per second. Some pros to consider for this option. 
+            If the video uploaded is 60 frames per second, it would take half the time for the video to be processed if <code>FPS_30</code> is selected. Also
+            Instagram videos upload at 30 frames per second, so if you are generating videos for the gram, <code>FPS_30</code> is worth doing as it won't affect
+            the uploaded video and would be much faster to generate.
+         </a>
+
+
+            <section id="sectionId">
+                     
+            </section>
+         <h2>Behind the scenes</h2>
+         <a>The class style transfer is done with a combination of Pytorch's </a>
+            <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+               Detectron2</a> 
+               <a>&nbsp and implementation of </a>
+               <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a> 
+            <a>.</a>
+
+            <br>
+            <a>
+         Colab is able to provide free resources in part by having dynamic usage limits that sometimes fluctuate, and by not providing guaranteed or unlimited resources. This means that overall usage limits as well as idle timeout periods, maximum VM lifetime, GPU types available, and other factors vary over time. Colab does not publish these limits, in part because they can (and sometimes do) vary quickly.<br>
+         
+      </a>
       </div>
 
 
