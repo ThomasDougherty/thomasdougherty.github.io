@@ -158,7 +158,7 @@
 
       <div class="content">
 
-         <h2>Content</h2><a>
+         <h2>Table of Contents</h2><a>
          <ul>
             <a href="#getting_started"><li>Getting Started</li></a>
             <a href="#run_notebook"><li>Run notebook</li></a>
@@ -174,6 +174,8 @@
                <a href="#fps_30"><li>FPS_30</li></a>
             </ul>
             <a href="#how_it_works"><li>How it works</li></a>
+            <a href="#conclusion"><li>Conclusion</li></a>
+            <a href="#references"><li>References</li></a>
          </ul>
 
 
@@ -390,13 +392,16 @@
             <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
                Detectron2</a> 
                <a>&nbsp and implementation of </a>
-               <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+               <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
                   Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a> 
             <a>.</a>
 
             <br><br>
             <a>
-            From Detectron2, I use Mask R-CNN for instance segmentation. Instance segmentation allows me to get both a pixel-wise labeling of a particular class and 
+            From Detectron2, I use </a> 
+            <a href="https://arxiv.org/abs/1703.06870" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+               Mask R-CNN</a> 
+               <a>&nbspfor instance segmentation. Instance segmentation allows me to get both a pixel-wise labeling of a particular class and 
             labels for separate instances of objects belonging to the same class. I use this to separate the objects of interest from the background.
          </a>
             <img style='height: 100%; width: 100%; object-fit: contain' src="resources/wallride_detect.png"/>
@@ -419,13 +424,39 @@
             <div class="content_img_desc">
                <a>We stylize the frame and use the instance segmentation as a mask to achieve the final product</a> 
                </div>
-
-            <br>
+               <section id="conclusion">      
+                  <h2>Conclusion</h2>        
+               </section>
             <a>
-         
+         In this post, I used a combination of Mask R-CNN and neural style transfers to create class specific style transfers.
+         I wrote everything in Google Colab so anyone can use it with no set up while providing free access to computing resources including 
+         GPUs. Additionally, wrote a friendly user interface so anyone can easily upload their image and videos to perform their own class style transfers.
+         <br><br>
+         I'm always trying to think of cool ideas for combining computer vision with skateboarding, so if you can think of anything
+         please let me know in the comment section below!
       </a>
-      </div>
+      <section id="references">      
+      <h2>References</h2>  
+      </section>
+      
+      <a>
+         <ul>
+               <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  <li>Detectron2</li></a>
+                  <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     <li>PyTorch's Neural Style Transfer</li></a>
+                  <a href="https://arxiv.org/abs/1703.06870" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     <li>Mask R-CNN</li></a>
+                  <a href="https://arxiv.org/abs/1603.08155" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     <li>Perceptual Losses for Real-Time Style Transfer and Super-Resolution</li></a>
+               <a href="https://thomasdougherty.ai/pytorch-video-style-transfer/" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  <li>Stabilizing neural style-transfer for video</li></a>
+               <a href="https://colab.research.google.com/notebooks/intro.ipynb" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  <li>Google Colab</li></a>
+         </ul>
+      </a>
 
+      </div>
 
 
 
@@ -433,7 +464,7 @@
 
       <!-- Comments section -->
       <script>
-         const GH_API_URL = 'https://api.github.com/repos/ThomasDougherty/thomasdougherty.github.io/issues/1/comments';
+         const GH_API_URL = 'https://api.github.com/repos/ThomasDougherty/thomasdougherty.github.io/issues/2/comments';
          
          let request = new XMLHttpRequest();
          request.open( 'GET', GH_API_URL, true );
@@ -507,7 +538,7 @@
          
          <div class="github-comments">
             <h2>Comments</h2>
-            <a id="leave-a-comment">Leave a comment for this post on <a href="https://github.com/ThomasDougherty/thomasdougherty.github.io/issues/1" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">this ticket!</a></a>
+            <a id="leave-a-comment">Leave a comment for this post on <a href="https://github.com/ThomasDougherty/thomasdougherty.github.io/issues/2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">this ticket!</a></a>
             <div id="gh-comments-list">
                   <a id="comment-url"></a>
             </div>
