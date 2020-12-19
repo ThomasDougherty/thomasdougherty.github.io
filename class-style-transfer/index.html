@@ -152,29 +152,47 @@
       </div>
       <div class="post_line"></div>
       <div class="content">
-         <a>This is a tutorial on how to run your own class style transfer. I wrote everything in Google Colab so anyone can run it in the cloud without needing
-            access to any resources except an internet connection.
-         </a>
+         <a>This is a tutorial on how to run class style transfers on your own image or video. I wrote everything in Google Colab so there is no setup to use, while providing
+            free access to computing resources including GPUs.
       </div>
 
       <div class="content">
 
-         <h2>Table of contents</h2><a>
+         <h2>Content</h2><a>
          <ul>
-            <a href="#sectionId"><li>How to use</li></a>
-            <a href="#sectionId"><li>Select options</li></a>
-            <a href="#sectionId"><li>Common errors</li></a>
-            <a href="#sectionId"><li>Behind the scenes</li></a>
+            <a href="#getting_started"><li>Getting Started</li></a>
+            <a href="#run_notebook"><li>Run notebook</li></a>
+            <ul>
+               <a href="#no_gpu"><li>Cannot connect to GPU backend</li></a>
+            </ul>
+            <a href="#select_options"><li>Select options</li></a>
+            <ul>
+               <a href="#classes"><li>CLASSES</li></a>
+               <a href="#style"><li>STYLE</li></a>
+               <a href="#inverse"><li>INVERSE</li></a>
+               <a href="#class_specific"><li>CLASS_SPECIFIC</li></a>
+               <a href="#fps_30"><li>FPS_30</li></a>
+            </ul>
+            <a href="#how_it_works"><li>How it works</li></a>
          </ul>
 
-         <h2>How to use</h2>
-            
+
+      <section id="getting_started">      
+         <h2>Getting Started</h2>
+      </section>
+
+          
          <a>The first thing you will need is a Google account to access Google Colab.<br /> <br /> 
             Next open the
          </a>
          <a href="https://colab.research.google.com/drive/1UDzEbS8YsAvZtH8oxnOzz58qQLR_3Lry?usp=sharing" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
             Colab Notebook</a> 
-            <a>.<br /> <br /> </a> 
+            <a>.
+               <div class="code_block">
+                  <script src="https://gist.github.com/ThomasDougherty/fa5a6b19bce8cf58f268da2cdaf278a5.js"></script>
+               </div>
+               
+               <br /> <br /> </a> 
          
          <a>You will need to enable the GPU. Go to <code>Edit</code> -> <code>Notebook settings</code> and change your hardware accelerator
             to <code>GPU</code> and press <code>SAVE</code>.
@@ -186,10 +204,9 @@
          <a>Changing the hardware accelerator to GPU</a> 
          </div>
 
-         <div class="content_bold">
-            <a>RUNNING</a>
-         </div>
-
+      <section id="run_notebook">      
+         <h2>Run notebook</h2>
+      </section>
          <a>
             To run with the default settings, select <code>Runtime</code> -> <code>Run all</code>.
          </a>
@@ -220,7 +237,31 @@
          
       </div>
 
-      <h2>Select options</h2>
+      <section id="no_gpu">      
+         <div class="content_bold">
+            <a>Cannot connect to GPU backend</a>
+         </div>         
+      </section>
+      <a>The majority of the time GPUs are available on Colab. When this messege appears, it means GPUs are currently unavailable. 
+         Unfortunately, the code cannot run without GPU, so just need to try again later :(
+      </a>
+      <img style='height: 100%; width: 100%; object-fit: contain' src="resources/no_gpu.png"/>
+      <div class="content_img_desc">
+         <a>GPUs unavailable</a> 
+         </div>
+<a>
+   Colab is a free resource provided by Google Research. There are limitations to it however.
+   <div class="quote">
+      Colab is able to provide free resources in part by having dynamic usage limits that sometimes fluctuate, and by not providing guaranteed or unlimited resources. This means that overall usage limits as well as idle timeout periods, maximum VM lifetime, GPU types available, and other factors vary over time. Colab does not publish these limits, in part because they can (and sometimes do) vary quickly.<br>
+
+   </div>
+</a>
+
+
+      <section id="select_options">      
+         <h2>Select options</h2>
+      </section>
+
          <a>
             There are several options that the user can choose from.
             <br>
@@ -234,9 +275,13 @@
                <li><code>FPS_30</code></li>
             </ul>
          </a>
-         <div class="content_bold">
-            <a>CLASSES</a>
-         </div>
+         
+         <section id="classes">      
+            <div class="content_bold">
+               <a>CLASSES</a>
+            </div>         
+         </section>
+
             <a>
             <code>PEOPLE</code>, <code>SKATEBOARD</code>, and <code>OTHER_CLASSES</code> correspond to the classes the user want styilized. For example,
             if I check both <code>PEOPLE</code> and <code>SKATEBOARD</code> options, only detected persons and skateboards will be stylized as shown below.</a>
@@ -258,9 +303,11 @@
             <div class="content_img_desc">
                <a><code>SKATEBOARD</code> and <code>dog</code> classes chosen</a> 
                </div>
-               <div class="content_bold">
-                  <a>STYLE</a>
-               </div>
+               <section id="style">      
+                  <div class="content_bold">
+                     <a>STYLE</a>
+                  </div>         
+               </section>
                <a>
                   <code>STYLE</code> option allows you to choose from 4 of our pretrained styles, or you can upload your own pretrained weights by selecting 
                   <code>pretrained</code> (the weights would have
@@ -294,9 +341,11 @@
                      </div>
 
                   
-               <div class="content_bold">
-                  <a>INVERSE</a>
-               </div>
+               <section id="inverse">      
+                  <div class="content_bold">
+                     <a>INVERSE</a>
+                  </div>         
+               </section>
                <a>
             <code>INVERSE</code> option stylizes everything but the selected class. If I were to keep my settings from the last image 
             and select the <code>INVERSE</code> option, then the stylization will look like below.
@@ -306,9 +355,11 @@
             <div class="content_img_desc">
                <a><code>SKATEBOARD</code> and <code>dog</code> classes chosen</a> 
                </div>
-         <div class="content_bold">
-            <a>CLASS_SPECIFIC</a>
-         </div>
+         <section id="class_specific">      
+            <div class="content_bold">
+               <a>CLASS_SPECIFIC</a>
+            </div>         
+         </section>
          <a>
             <code>CLASS_SPECIFIC</code> option indicates whether the stylization should apply to the classes only or the entire image.
             If I were to uncheck the <code>CLASS_SPECIFIC</code> option, then the entire image would be stylizied as shown below.
@@ -319,9 +370,11 @@
             <a><code>CLASS_SPECIFIC</code> unchecked</a> 
             </div>
 
-            <div class="content_bold">
-               <a>FPS_30</a>
-            </div>
+            <section id="fps_30">      
+               <div class="content_bold">
+                  <a>FPS_30</a>
+               </div>         
+            </section>
          <a>
             If uploading a video, <code>FPS_30</code> option changes the final video to be 30 frames per second. Some pros to consider for this option. 
             If the video uploaded is 60 frames per second, it would take half the time for the video to be processed if <code>FPS_30</code> is selected. Also
@@ -330,10 +383,9 @@
          </a>
 
 
-            <section id="sectionId">
-                     
-            </section>
-         <h2>Behind the scenes</h2>
+         <section id="how_it_works">      
+            <h2>How it works</h2>        
+         </section>
          <a>The class style transfer is done with a combination of Pytorch's </a>
             <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
                Detectron2</a> 
@@ -342,9 +394,34 @@
                   Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a> 
             <a>.</a>
 
+            <br><br>
+            <a>
+            From Detectron2, I use Mask R-CNN for instance segmentation. Instance segmentation allows me to get both a pixel-wise labeling of a particular class and 
+            labels for separate instances of objects belonging to the same class. I use this to separate the objects of interest from the background.
+         </a>
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/wallride_detect.png"/>
+            <div class="content_img_desc">
+               <a>Detection using Mask R-CNN</a> 
+               </div>
+
+               <a>
+                  In my 
+               </a>
+                  <a href="https://thomasdougherty.ai/pytorch-video-style-transfer/" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     last post</a> 
+                  
+                  <a>, I go into depth about how style transfers work, so feel free to check it out if you want details. 
+                     To make the final product, I first detect the pixel locations of my chosen class. Next I take a stylization of the current frame. I use 
+                     my detected pixel locations as a mask which then separates my class from the background, giving me the final class style transfer.
+               </a>
+
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/wallride_diagram.png"/>
+            <div class="content_img_desc">
+               <a>We stylize the frame and use the instance segmentation as a mask to achieve the final product</a> 
+               </div>
+
             <br>
             <a>
-         Colab is able to provide free resources in part by having dynamic usage limits that sometimes fluctuate, and by not providing guaranteed or unlimited resources. This means that overall usage limits as well as idle timeout periods, maximum VM lifetime, GPU types available, and other factors vary over time. Colab does not publish these limits, in part because they can (and sometimes do) vary quickly.<br>
          
       </a>
       </div>
