@@ -1,0 +1,591 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+   <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161322277-1"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         
+         gtag('config', 'UA-161322277-1');
+      </script>
+      <link rel="shortcut icon" type="image/x-icon" href="teasers/favicon.ico" />
+      <title>Class Style Transfer using Google Colab</title>
+      <meta name = "description=" content="Thomas Dougherty Blog and posts on machine learning, deep learning, and computer vision topics">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta property="og:image" content="resources/video_style_cover_2_small.png" />
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+      <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Spectral' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+      <link href="css/style.css" rel="stylesheet" type="text/css" />
+      <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script type="text/javascript"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+   </head>
+   <body>
+      <div class="header_img">
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/frame_00072.png"/>
+      </div>
+      <div class="topcorner">
+         <div id="container">
+            <div class="toggle">
+               <input type="checkbox" name="toggle" class="check-checkbox" id="mytoggle" autocomplete='off'>
+               <label class="check-label" for="mytoggle">
+                  <div id="background"></div>
+                  <span class="face">
+                  <span class="face-container">
+                  <span class="eye left"></span>
+                  <span class="eye right"></span>
+                  <span class="mouth"></span>
+                  </span>
+                  </span>
+               </label>
+            </div>
+         </div>
+      </div>
+
+      <script>
+         // toggle cookie stuff
+         function getCookie(name) {
+         let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+         ));
+         return matches ? decodeURIComponent(matches[1]) : undefined;
+         }
+      </script>
+      <script>
+         // start up script to check user preference
+         var preference = window.matchMedia('(prefers-color-scheme: dark)');
+         var startToggle = false;
+         var pFlag = true;
+
+         var tdogState = getCookie("tdog");
+         if(tdogState == "dark"){
+         document.getElementById("mytoggle").checked = true;
+         document.documentElement.classList.add('darkmode');
+         pFlag = false;
+         }
+         if(tdogState == "light"){
+         pFlag = false;
+         document.getElementById("mytoggle").checked = false;
+         document.documentElement.classList.remove('darkmode');
+         }
+         if (pFlag){
+            if (preference.matches){
+            document.getElementById("mytoggle").checked = true;
+            document.documentElement.classList.add('darkmode');
+            }
+            else{
+            document.getElementById("mytoggle").checked = false;
+            document.documentElement.classList.remove('darkmode');
+            }
+         }
+      </script>
+
+
+      <script>
+         $(function(){
+           $("#mytoggle").change(function() {
+             if (startToggle){
+               if (document.getElementById("mytoggle").checked){
+                 document.documentElement.classList.add('darkmode');
+                 document.cookie = "tdog=dark;path=/"
+               }
+               else {
+                  document.cookie = "tdog=light;path=/"
+                 document.documentElement.classList.remove('darkmode');
+               }
+             } else {
+               startToggle = true;
+             }
+           }).change();
+         })
+      </script>
+
+      <script>
+         function emailClipboard() {
+           var copyText = document.getElementById("myInput");
+           copyText.select();
+           copyText.setSelectionRange(0, 99999)
+           document.execCommand("copy");
+           alert("Copied: " + copyText.value);
+         }
+      </script>
+      <input type = "text" value="tdougherty84@gmail.com" id="myInput" style="position: relative; left: -10000px;">
+      <div class="post_header">
+         <h1>Class Style Transfer using Google Colab</h1>
+         <h3>December 20th, 2020
+         </h3>
+         <div class="post_left">
+            <div class="post_photo">
+               <a href="https://thomasdougherty.github.io/">
+               <img src="resources/me_sd.jpg"/>
+               </a>
+               <a href="https://thomasdougherty.github.io/">
+               Thomas Dougherty
+               </a>
+            </div>
+         </div>
+         <div class="post_right">
+            <div class="post_icon">
+               <img src="icons/email.png" onclick="emailClipboard(this)"/>        
+               <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
+               <img src="icons/git.png"/>
+               </a>
+               <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank">
+               <img src="icons/linkedin.png"/>
+               </a>
+               <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank">
+               <img src="icons/twitter.png"/>
+               </a>
+            </div>
+         </div>
+      </div>
+      <div class="post_line"></div>
+      <div class="content">
+         <a>This is a tutorial on how to run class style transfers on your own image or video. I wrote everything in Google Colab so there is no setup to use, while providing
+            free access to computing resources including GPUs.
+      </div>
+
+      <div class="content">
+
+         <h2>Table of Contents</h2><a>
+         <ul>
+            <a href="#getting_started"><li>Getting Started</li></a>
+            <a href="#run_notebook"><li>Run notebook</li></a>
+            <ul>
+               <a href="#no_gpu"><li>Cannot connect to GPU backend</li></a>
+            </ul>
+            <a href="#select_options"><li>Select options</li></a>
+            <ul>
+               <a href="#classes"><li>CLASSES</li></a>
+               <a href="#style"><li>STYLE</li></a>
+               <a href="#inverse"><li>INVERSE</li></a>
+               <a href="#class_specific"><li>CLASS_SPECIFIC</li></a>
+               <a href="#fps_30"><li>FPS_30</li></a>
+            </ul>
+            <a href="#how_it_works"><li>How it works</li></a>
+            <a href="#conclusion"><li>Conclusion</li></a>
+            <a href="#references"><li>References</li></a>
+         </ul>
+
+
+      <section id="getting_started">      
+         <h2>Getting Started</h2>
+      </section>
+
+          
+         <a>The first thing you will need is a Google account to access Google Colab.<br /> <br /> 
+            Next open the
+         </a>
+         <a href="https://colab.research.google.com/drive/1UDzEbS8YsAvZtH8oxnOzz58qQLR_3Lry?usp=sharing" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+            Colab Notebook</a> 
+            <a>.
+               <div class="code_block">
+                  <script src="https://gist.github.com/ThomasDougherty/fa5a6b19bce8cf58f268da2cdaf278a5.js"></script>
+               </div>
+               
+               <br /> <br /> </a> 
+         
+         <a>You will need to enable the GPU. Go to <code>Edit</code> -> <code>Notebook settings</code> and change your hardware accelerator
+            to <code>GPU</code> and press <code>SAVE</code>.
+
+         </a>  
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/edit_notebook.png"/>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/select_gpu2.png"/>
+            <div class="content_img_desc">
+         <a>Changing the hardware accelerator to GPU</a> 
+         </div>
+
+      <section id="run_notebook">      
+         <h2>Run notebook</h2>
+      </section>
+         <a>
+            To run with the default settings, select <code>Runtime</code> -> <code>Run all</code>.
+         </a>
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/runtime.png"/>
+            <div class="content_img_desc">
+         <a>Running the notebook</a> 
+         </div>
+
+         <a>
+            Under <code>Select file(s)</code> select <code>Choose Files</code> to upload your media content. You can select multiple images and videos 
+            at once.
+         </a>
+         
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/choose_files.png"/>
+         <div class="content_img_desc">
+         <a>Selecting media files</a> 
+      </div>
+         <a>
+            The code will start running. You can see the progress under the <code>Main</code> section. This may take a couple minutes
+            depending on the length and resolution of the selected media.<br /> <br /> 
+            When completed, your final product will be in the <code>finished_products</code> folder to the left. You can download the media file 
+            by pressing to the right of name.
+         </a>
+         
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/main_download.png"/>
+         <div class="content_img_desc">
+         <a>Main section shows the progress and the finished product can be downloaded to the side </a>  
+         
+      </div>
+
+      <section id="no_gpu">      
+         <div class="content_bold">
+            <a>Cannot connect to GPU backend</a>
+         </div>         
+      </section>
+      <a>The majority of the time GPUs are available on Colab. When this messege appears, it means GPUs are currently unavailable. 
+         Unfortunately, the code cannot run without GPU, so just need to try again later :(
+      </a>
+      <img style='height: 100%; width: 100%; object-fit: contain' src="resources/no_gpu.png"/>
+      <div class="content_img_desc">
+         <a>GPUs unavailable</a> 
+         </div>
+<a>
+   Colab is a free resource provided by Google Research. There are limitations to it however.
+   <div class="quote">
+      Colab is able to provide free resources in part by having dynamic usage limits that sometimes fluctuate, and by not providing guaranteed or unlimited resources. This means that overall usage limits as well as idle timeout periods, maximum VM lifetime, GPU types available, and other factors vary over time. Colab does not publish these limits, in part because they can (and sometimes do) vary quickly.<br>
+
+   </div>
+</a>
+
+
+      <section id="select_options">      
+         <h2>Select options</h2>
+      </section>
+
+         <a>
+            There are several options that the user can choose from.
+            <br>
+            <ul>
+               <li><code>PEOPLE</code></li>
+               <li><code>SKATEBOARD</code></li>
+               <li><code>OTHER_CLASSES</code></li>
+               <li><code>STYLE</code></li>
+               <li><code>INVERSE</code></li>
+               <li><code>CLASS_SPECIFIC</code></li>
+               <li><code>FPS_30</code></li>
+            </ul>
+         </a>
+         
+         <section id="classes">      
+            <div class="content_bold">
+               <a>CLASSES</a>
+            </div>         
+         </section>
+
+            <a>
+            <code>PEOPLE</code>, <code>SKATEBOARD</code>, and <code>OTHER_CLASSES</code> correspond to the classes the user want styilized. For example,
+            if I check both <code>PEOPLE</code> and <code>SKATEBOARD</code> options, only detected persons and skateboards will be stylized as shown below.</a>
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/frame_00072.png"/>
+            <div class="content_img_desc">
+               <a><code>SKATEBOARD</code> option selected</a> 
+               </div>
+            <a><code>OTHER_CLASSES</code> is a write in option. The user can write in other classes available in this section, separated by commas. 
+               Here's a list of classes available to choose from: <br> <br>
+               <code>person</code>, <code>bicycle</code>, <code>car</code>, <code>motorcycle</code>, <code>airplane</code>, <code>bus</code>, <code>train</code>, <code>truck</code>, <code>boat</code>, <code>traffic light</code>, <code>fire hydrant</code>, <code>stop sign</code>, <code>parking meter</code>, <code>bench</code>, <code>bird</code>, <code>cat</code>, <code>dog</code>, <code>horse</code>, <code>sheep</code>, <code>cow</code>, <code>elephant</code>, <code>bear</code>, <code>zebra</code>, <code>giraffe</code>, <code>backpack</code>, <code>umbrella</code>, <code>handbag</code>, <code>tie</code>, <code>suitcase</code>, <code>frisbee</code>, <code>skis</code>, <code>snowboard</code>, <code>sports ball</code>, <code>kite</code>, <code>baseball bat</code>, <code>baseball glove</code>, <code>skateboard</code>, <code>surfboard</code>, <code>tennis racket</code>, <code>bottle</code>, <code>wine glass</code>, <code>cup</code>, <code>fork</code>, <code>knife</code>, <code>spoon</code>, <code>bowl</code>, <code>banana</code>, <code>apple</code>, <code>sandwich</code>, <code>orange</code>, <code>broccoli</code>, <code>carrot</code>, <code>hot dog</code>, <code>pizza</code>, <code>donut</code>, <code>cake</code>, <code>chair</code>, <code>couch</code>, <code>potted plant</code>, <code>bed</code>, <code>dining table</code>, <code>toilet</code>, <code>tv</code>, <code>laptop</code>, <code>mouse</code>, <code>remote</code>, <code>keyboard</code>, <code>cell phone</code>, <code>microwave</code>, <code>oven</code>, <code>toaster</code>, <code>sink</code>, <code>refrigerator</code>, <code>book</code>, <code>clock</code>, <code>vase</code>, <code>scissors</code>, <code>teddy bear</code>, <code>hair drier</code>, <code>toothbrush</code>            
+            .
+            <br><br>
+            So if you were to select the <code>SKATEBOARD</code> option and type <code>dog</code> in the <code>OTHER_CLASSES</code> section, the stylization 
+            would be done on the classes as shown below.
+            </a>
+
+
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_dog_skateboard.png"/>
+            <div class="content_img_desc">
+               <a><code>SKATEBOARD</code> and <code>dog</code> classes chosen</a> 
+               </div>
+               <section id="style">      
+                  <div class="content_bold">
+                     <a>STYLE</a>
+                  </div>         
+               </section>
+               <a>
+                  <code>STYLE</code> option allows you to choose from 4 of our pretrained styles, or you can upload your own pretrained weights by selecting 
+                  <code>pretrained</code> (the weights would have
+                  to come from PyTorch's fast-neural-style model). 
+                  <br><br>
+                  The 4 styles available are shown below:
+                  <br><br>
+               </a>
+                  <a><code>candy</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_candy.png"/>
+                  <div class="content_img_desc">
+                     <a><code>candy</code> style</a> 
+                     </div>
+
+                  <a><code>mosaic</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_mosaic.png"/>
+                  <div class="content_img_desc">
+                     <a><code>mosaic</code> style</a> 
+                     </div>
+
+                  <a><code>rain_princess</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_rain.png"/>
+                  <div class="content_img_desc">
+                     <a><code>rain_princess</code> style</a> 
+                     </div>
+
+                  <a><code>undie</code></a>
+                  <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_undie.png"/>
+                  <div class="content_img_desc">
+                     <a><code>undie</code> style</a> 
+                     </div>
+
+                  
+               <section id="inverse">      
+                  <div class="content_bold">
+                     <a>INVERSE</a>
+                  </div>         
+               </section>
+               <a>
+            <code>INVERSE</code> option stylizes everything but the selected class. If I were to keep my settings from the last image 
+            and select the <code>INVERSE</code> option, then the stylization will look like below.
+         </a>
+
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_inverse.png"/>
+            <div class="content_img_desc">
+               <a><code>SKATEBOARD</code> and <code>dog</code> classes chosen</a> 
+               </div>
+         <section id="class_specific">      
+            <div class="content_bold">
+               <a>CLASS_SPECIFIC</a>
+            </div>         
+         </section>
+         <a>
+            <code>CLASS_SPECIFIC</code> option indicates whether the stylization should apply to the classes only or the entire image.
+            If I were to uncheck the <code>CLASS_SPECIFIC</code> option, then the entire image would be stylizied as shown below.
+         </a>
+
+         <img style='height: 100%; width: 100%; object-fit: contain' src="resources/corgi_noclass.png"/>
+         <div class="content_img_desc">
+            <a><code>CLASS_SPECIFIC</code> unchecked</a> 
+            </div>
+
+            <section id="fps_30">      
+               <div class="content_bold">
+                  <a>FPS_30</a>
+               </div>         
+            </section>
+         <a>
+            If uploading a video, <code>FPS_30</code> option changes the final video to be 30 frames per second. Some pros to consider for this option. 
+            If the video uploaded is 60 frames per second, it would take half the time for the video to be processed if <code>FPS_30</code> is selected. Also
+            Instagram videos upload at 30 frames per second, so if you are generating videos for the gram, <code>FPS_30</code> is worth doing as it won't affect
+            the uploaded video and would be much faster to generate.
+         </a>
+
+
+         <section id="how_it_works">      
+            <h2>How it works</h2>        
+         </section>
+         <a>The class style transfer is done with a combination of Pytorch's </a>
+            <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+               Detectron2</a> 
+               <a>&nbsp and implementation of </a>
+               <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a> 
+            <a>.</a>
+
+            <br><br>
+            <a>
+            From Detectron2, I use </a> 
+            <a href="https://arxiv.org/abs/1703.06870" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+               Mask R-CNN</a> 
+               <a>&nbspfor instance segmentation. Instance segmentation allows me to get both a pixel-wise labeling of a particular class and 
+            labels for separate instances of objects belonging to the same class. I use this to separate the objects of interest from the background.
+         </a>
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/wallride_detect.png"/>
+            <div class="content_img_desc">
+               <a>Detection using Mask R-CNN</a> 
+               </div>
+
+               <a>
+                  In my 
+               </a>
+                  <a href="https://thomasdougherty.ai/pytorch-video-style-transfer/" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     last post</a> 
+                  
+                  <a>, I go into depth about how style transfers work, so feel free to check it out if you want details. 
+                     To make the final product, I first detect the pixel locations of my chosen class. Next I take a stylization of the current frame. I use 
+                     my detected pixel locations as a mask which then separates my class from the background, giving me the final class style transfer.
+               </a>
+
+            <img style='height: 100%; width: 100%; object-fit: contain' src="resources/wallride_diagram.png"/>
+            <div class="content_img_desc">
+               <a>We stylize the frame and use the instance segmentation as a mask to achieve the final product</a> 
+               </div>
+               <section id="conclusion">      
+                  <h2>Conclusion</h2>        
+               </section>
+            <a>
+         In this post, I used a combination of Mask R-CNN and neural style transfers to create class specific style transfers.
+         I wrote everything in Google Colab so anyone can use it with no set up while providing free access to computing resources including 
+         GPUs. Additionally, wrote a friendly user interface so anyone can easily upload their image and videos to perform their own class style transfers.
+         <br><br>
+         I'm always trying to think of cool ideas for combining computer vision with skateboarding, so if you can think of anything
+         please let me know in the comment section below!
+      </a>
+      <section id="references">      
+      <h2>References</h2>  
+      </section>
+      
+      <a>
+         <ul>
+               <a href="https://github.com/facebookresearch/detectron2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  <li>Detectron2</li></a>
+                  <a href="https://github.com/pytorch/examples/tree/master/fast_neural_style" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     <li>PyTorch's Neural Style Transfer</li></a>
+                  <a href="https://arxiv.org/abs/1703.06870" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     <li>Mask R-CNN</li></a>
+                  <a href="https://arxiv.org/abs/1603.08155" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                     <li>Perceptual Losses for Real-Time Style Transfer and Super-Resolution</li></a>
+               <a href="https://thomasdougherty.ai/pytorch-video-style-transfer/" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  <li>Stabilizing neural style-transfer for video</li></a>
+               <a href="https://colab.research.google.com/notebooks/intro.ipynb" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">
+                  <li>Google Colab</li></a>
+         </ul>
+      </a>
+
+      </div>
+
+
+
+
+
+      <!-- Comments section -->
+      <script>
+         const GH_API_URL = 'https://api.github.com/repos/ThomasDougherty/thomasdougherty.github.io/issues/2/comments';
+         
+         let request = new XMLHttpRequest();
+         request.open( 'GET', GH_API_URL, true );
+         request.onload = function() {
+            if ( this.status >= 200 && this.status < 400 ) {
+               let response = JSON.parse( this.response );
+         
+               for ( var i = 0; i < response.length; i++ ) {
+                  document.getElementById( 'gh-comments-list' ).appendChild( createCommentEl( response[ i ] ) );
+               }
+         
+               if ( 0 === response.length ) {
+                  document.getElementById( 'no-comments-found' ).style.display = 'block';
+               }
+            } else {
+               console.error( this );
+            }
+         };
+         
+         function createCommentEl( response ) {
+            let user = document.createElement( 'a' );
+            user.setAttribute( 'href', response.user.html_url );
+            user.classList.add( 'user' );
+         
+            let userAvatar = document.createElement( 'img' );
+            userAvatar.classList.add( 'avatar' );
+            userAvatar.setAttribute( 'src', response.user.avatar_url );
+            
+            user.appendChild( userAvatar );
+
+            let commentLink = document.createElement( 'a' );
+            commentLink.setAttribute( 'href', response.html_url);
+            commentLink.classList.add( 'comment-url' );
+            commentLink.innerHTML = ' #' + response.id + ' - ' + response.created_at;
+
+            let userName = document.createElement( 'a' );
+            userName.setAttribute( 'href', response.html_url);
+            userName.classList.add( 'user-name' );
+            userName.innerHTML = response.user.login; 
+
+            let createdContents = document.createElement( 'a' );
+            createdContents.classList.add( 'created-content' );
+            createdContents.innerHTML = ' commented:' + "<br />";  
+
+            let commentContents = document.createElement( 'p' );
+            commentContents.classList.add( 'comment-content' );
+            commentContents.innerHTML = response.body;   
+
+            let buffer = document.createElement( 'div' );
+            buffer.classList.add( 'buffer' );
+            
+            let comment = document.createElement( 'dt' );
+            comment.setAttribute( 'buff', response.created_at );
+            comment.setAttribute( 'data-created', response.created_at );
+            comment.setAttribute( 'user-name', response.user.login );
+            comment.setAttribute( 'created-name', response.user.login );
+            comment.setAttribute( 'data-author-avatar', response.user.avatar_url );
+            comment.setAttribute( 'data-user-url', response.user.url);
+         
+            comment.appendChild( buffer );
+            comment.appendChild( user );
+            comment.appendChild( userName )
+            comment.append( createdContents )
+            comment.appendChild( commentContents );
+            comment.appendChild( commentLink );
+         
+            return comment;
+         }
+         request.send();
+         </script>
+         
+         <div class="github-comments">
+            <h2>Comments</h2>
+            <a id="leave-a-comment">Leave a comment for this post on <a href="https://github.com/ThomasDougherty/thomasdougherty.github.io/issues/2" rel="noopener noreferrer" target="_blank" style="text-decoration:underline;">this ticket!</a></a>
+            <div id="gh-comments-list">
+                  <a id="comment-url"></a>
+            </div>
+         </div>
+
+      
+      <div class="sidenav" >
+         <div class="instructorphoto">
+            <a href="https://thomasdougherty.github.io/">
+            <img src="resources/me_sd.jpg"/>
+            </a>
+         </div>
+         <a href="https://thomasdougherty.github.io/">
+         Thomas Dougherty
+         </a>
+         <div class="profile_links">
+            <a>
+            <img src="icons/email.png" onclick="emailClipboard(this)"/> 
+            </a>
+            <a href="https://github.com/thomasdougherty/" rel="noopener noreferrer" target="_blank">
+            <img src="icons/git.png"/>
+            </a>
+            <a href="https://www.linkedin.com/in/thomasjosephdougherty/" rel="noopener noreferrer" target="_blank">
+            <img src="icons/linkedin.png"/>
+            </a>
+            <a href="https://twitter.com/tommyjdeee" rel="noopener noreferrer" target="_blank">
+            <img src="icons/twitter.png"/>
+            </a>
+         </div>
+      </div>
+      <script>
+         $(window).bind('scroll', 'resize', function myFunction() {
+           var winWidth = $(window).width();
+           if ($(window).scrollTop() > 950 && winWidth >= 1250) {
+               $('.sidenav').show();
+           }
+           else {
+               $('.sidenav').hide();
+           }
+         });
+         
+         $(window).on("resize", myFunction);
+         $(window).on("scroll", myFunction);
+         window.addEventListener('resize', myFunction);
+      </script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   </body>
+</html>
