@@ -112,6 +112,17 @@
   })
 </script>
 
+<script>
+  function emailClipboard() {
+    var copyText = document.getElementById("myInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Copied: " + copyText.value);
+  }
+</script>
+<input type = "text" value="tdougherty84@gmail.com" id="myInput" style="position: relative; left: -10000px;">
+
   <div class="profile">
     <table width="100%" cellpadding="10">
       <tr>	
@@ -121,7 +132,7 @@
             <img src="resources/me_sd.jpg"/>
           </div>
           <div class="profile_name">Thomas Dougherty</div>
-          <div class="profile_about">tdougherty84@gmail.com</div>
+          <div class="profile_about" ><a onclick="emailClipboard(this);"style="cursor: pointer; cursor: hand;">tdougherty84@gmail.com</a></div>
           <div class="profile_about">I am a geospatial analyst at <a href="https://aerospace.org/" rel="noopener noreferrer" target="_blank">The Aerospace Corporation</a>. 
             I develop deep learning and computer vision solutions for the space enterprise. </div>
             
